@@ -43,8 +43,7 @@ endif()
 # ############################################################################
 # Set minimum C++ standard needed to compile the Coin code
 # ############################################################################
-set( CMAKE_CXX_STANDARD 11 CACHE STRING "C++ standard used for the build" )
-message( STATUS "Setting C++ standard: '${CMAKE_CXX_STANDARD}', which is the minimum needed to compile Coin.")
+set(CMAKE_CXX_STANDARD 17)
 
 # ############################################################################
 # Include necessary submodules
