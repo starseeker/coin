@@ -56,6 +56,11 @@ add_headless_example(02.1.HelloCone)
 add_headless_example(02.2.EngineSpin)
 add_headless_example(03.1.Molecule)
 add_headless_example(03.2.Robot)
+add_headless_example(03.3.Naming)
+add_headless_example(04.1.Cameras)
+add_headless_example(04.2.Lights)
+add_headless_example(05.1.FaceSet)
+add_headless_example(05.2.IndexedFaceSet)
 
 # Create output directory for rendered images
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/output")
