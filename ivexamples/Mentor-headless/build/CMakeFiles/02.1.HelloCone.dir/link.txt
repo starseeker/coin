@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic -Wl,--dependency-file=CMakeFiles/02.1.HelloCone.dir/link.d CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o -o bin/02.1.HelloCone   -L/home/runner/work/coin/coin/ivexamples/Mentor-headless/../../build/lib  -Wl,-rpath,/home/runner/work/coin/coin/ivexamples/Mentor-headless/../../build/lib -lCoin -lGL -lGLU

@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic -Wl,--dependency-file=CMakeFiles/02.2.EngineSpin.dir/link.d CMakeFiles/02.2.EngineSpin.dir/02.2.EngineSpin.cpp.o -o bin/02.2.EngineSpin   -L/home/runner/work/coin/coin/ivexamples/Mentor-headless/../../build/lib  -Wl,-rpath,/home/runner/work/coin/coin/ivexamples/Mentor-headless/../../build/lib -lCoin -lGL -lGLU
