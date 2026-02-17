@@ -1,14 +1,17 @@
 #!/bin/bash
 # Script to run all headless examples and generate reference images
 
+# Configuration
+DISPLAY_NUM=99
+
 # Set up display for offscreen rendering
-export DISPLAY=${DISPLAY:-:99}
+export DISPLAY=${DISPLAY:-:$DISPLAY_NUM}
 export COIN_GLX_PIXMAP_DIRECT_RENDERING=1
 
 # Check if Xvfb is running, start if needed
 if ! pgrep Xvfb > /dev/null; then
     echo "Starting Xvfb..."
-    Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    Xvfb :$DISPLAY_NUM -screen 0 1024x768x24 > /dev/null 2>&1 &
     XVFB_PID=$!
     sleep 2
 fi
@@ -58,7 +61,7 @@ echo ""
 echo "Total: $NUM_FILES images generated"
 
 # Clean up Xvfb if we started it
-if [ ! -z "$XVFB_PID" ]; then
+if [ -n "$XVFB_PID" ]; then
     echo "Stopping Xvfb..."
     kill $XVFB_PID 2>/dev/null
 fi

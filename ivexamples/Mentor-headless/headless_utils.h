@@ -172,10 +172,4 @@ inline void rotateCamera(SoCamera *camera, float azimuth, float elevation) {
     camera->orientation.setValue(newOrientation);
 }
 
-/**
- * Create a simple test scene if scene creation fails
- * @return A simple scene with a cone
- */
-SoSeparator* createFallbackScene();
-
 #endif // HEADLESS_UTILS_H
