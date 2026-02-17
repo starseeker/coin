@@ -62,8 +62,10 @@ add_headless_example(04.2.Lights)
 add_headless_example(05.1.FaceSet)
 add_headless_example(05.2.IndexedFaceSet)
 add_headless_example(05.3.TriangleStripSet)
+add_headless_example(05.4.QuadMesh)
 add_headless_example(06.1.Text)
 add_headless_example(06.2.Simple3DText)
+add_headless_example(07.1.BasicTexture)
 
 # Create output directory for rendered images
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/output")
