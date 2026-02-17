@@ -87,18 +87,18 @@ int main(int argc, char **argv)
     char filename[256];
     
     // Front view
-    snprintf(filename, sizeof(filename), "%s_front.png", baseFilename);
+    snprintf(filename, sizeof(filename), "%s_front.rgb", baseFilename);
     renderToFile(root, filename);
     
     // Rotate camera for side view
     rotateCamera(camera, M_PI / 2, 0);
-    snprintf(filename, sizeof(filename), "%s_side.png", baseFilename);
+    snprintf(filename, sizeof(filename), "%s_side.rgb", baseFilename);
     renderToFile(root, filename);
     
     // Rotate for top view
     camera->viewAll(root, SbViewportRegion(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     rotateCamera(camera, 0, M_PI / 4);
-    snprintf(filename, sizeof(filename), "%s_angle.png", baseFilename);
+    snprintf(filename, sizeof(filename), "%s_angle.rgb", baseFilename);
     renderToFile(root, filename);
 
     root->unref();

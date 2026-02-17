@@ -55,6 +55,7 @@ endif()
 add_headless_example(02.1.HelloCone)
 add_headless_example(02.2.EngineSpin)
 add_headless_example(03.1.Molecule)
+add_headless_example(03.2.Robot)
 
 # Create output directory for rendered images
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/output")
@@ -63,7 +64,7 @@ file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/output")
 add_custom_target(run_examples
     COMMAND ${CMAKE_COMMAND} -E echo "Running headless examples..."
     COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/output"
-    DEPENDS 02.1.HelloCone 02.2.EngineSpin 03.1.Molecule
+    DEPENDS 02.1.HelloCone 02.2.EngineSpin 03.1.Molecule 03.2.Robot
     COMMENT "Building all headless examples"
 )
 
@@ -84,4 +85,10 @@ add_custom_target(run_Molecule
     COMMAND cd ${CMAKE_CURRENT_BINARY_DIR}/output && ${CMAKE_CURRENT_BINARY_DIR}/bin/03.1.Molecule
     DEPENDS 03.1.Molecule
     COMMENT "Running Molecule example"
+)
+
+add_custom_target(run_Robot
+    COMMAND cd ${CMAKE_CURRENT_BINARY_DIR}/output && ${CMAKE_CURRENT_BINARY_DIR}/bin/03.2.Robot
+    DEPENDS 03.2.Robot
+    COMMENT "Running Robot example"
 )

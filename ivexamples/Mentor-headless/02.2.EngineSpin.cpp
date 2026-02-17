@@ -51,7 +51,7 @@ int main(int argc, char **argv)
         float angle = (2.0f * M_PI * i) / numFrames;
         myRotXYZ->angle.setValue(angle);
         
-        snprintf(filename, sizeof(filename), "%s_frame%02d.png", baseFilename, i);
+        snprintf(filename, sizeof(filename), "%s_frame%02d.rgb", baseFilename, i);
         renderToFile(root, filename);
     }
     

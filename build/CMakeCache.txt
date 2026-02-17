@@ -415,7 +415,7 @@ OPENGL_xmesa_INCLUDE_DIR:PATH=OPENGL_xmesa_INCLUDE_DIR-NOTFOUND
 
 //Enable simage runtime linking when ON (default), disable when
 // OFF
-SIMAGE_RUNTIME_LINKING:BOOL=ON
+SIMAGE_RUNTIME_LINKING:BOOL=OFF
 
 //Enable SpiderMonkey runtime linking when ON (default), disable
 // when OFF.
@@ -838,6 +838,9 @@ X11_xkbfile_LIB:FILEPATH=X11_xkbfile_LIB-NOTFOUND
 
 //Enable ZLib runtime linking when ON (default), disable when OFF.
 ZLIB_RUNTIME_LINKING:BOOL=ON
+
+//The directory containing a CMake configuration file for simage.
+simage_DIR:PATH=simage_DIR-NOTFOUND
 
 
 ########################

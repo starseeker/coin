@@ -69,6 +69,7 @@ include CMakeFiles/run_examples.dir/progress.make
 CMakeFiles/run_examples: bin/02.1.HelloCone
 CMakeFiles/run_examples: bin/02.2.EngineSpin
 CMakeFiles/run_examples: bin/03.1.Molecule
+CMakeFiles/run_examples: bin/03.2.Robot
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building all headless examples"
 	/usr/local/bin/cmake -E echo Running\ headless\ examples...
 	/usr/local/bin/cmake -E make_directory /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/output

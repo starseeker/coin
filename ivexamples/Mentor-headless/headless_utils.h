@@ -67,18 +67,10 @@ inline bool renderToFile(
         return false;
     }
 
-    // Write to file
+    // Write to file - use writeToRGB for SGI RGB format (doesn't need simage)
     if (!renderer.writeToRGB(filename)) {
         fprintf(stderr, "Error: Failed to write to RGB file %s\n", filename);
-        // Try writeToFile as fallback
-        const char *ext = strrchr(filename, '.');
-        if (ext) ext++; // Skip the dot
-        else ext = "rgb"; // Default to RGB
-        
-        if (!renderer.writeToFile(filename, ext)) {
-            fprintf(stderr, "Error: Failed to write to file %s\n", filename);
-            return false;
-        }
+        return false;
     }
 
     printf("Successfully rendered to %s (%dx%d)\n", filename, width, height);

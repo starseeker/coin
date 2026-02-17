@@ -60,8 +60,10 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/02.1.HelloCone.dir/DependInfo.cmake"
   "CMakeFiles/02.2.EngineSpin.dir/DependInfo.cmake"
   "CMakeFiles/03.1.Molecule.dir/DependInfo.cmake"
+  "CMakeFiles/03.2.Robot.dir/DependInfo.cmake"
   "CMakeFiles/run_examples.dir/DependInfo.cmake"
   "CMakeFiles/run_HelloCone.dir/DependInfo.cmake"
   "CMakeFiles/run_EngineSpin.dir/DependInfo.cmake"
   "CMakeFiles/run_Molecule.dir/DependInfo.cmake"
+  "CMakeFiles/run_Robot.dir/DependInfo.cmake"
   )

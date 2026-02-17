@@ -156,6 +156,19 @@ depend:
 .PHONY : 03.1.Molecule/fast
 
 #=============================================================================
+# Target rules for targets named 03.2.Robot
+
+# Build rule for target.
+03.2.Robot: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 03.2.Robot
+.PHONY : 03.2.Robot
+
+# fast build rule for target.
+03.2.Robot/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/03.2.Robot.dir/build.make CMakeFiles/03.2.Robot.dir/build
+.PHONY : 03.2.Robot/fast
+
+#=============================================================================
 # Target rules for targets named run_examples
 
 # Build rule for target.
@@ -206,6 +219,19 @@ run_Molecule: cmake_check_build_system
 run_Molecule/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_Molecule.dir/build.make CMakeFiles/run_Molecule.dir/build
 .PHONY : run_Molecule/fast
+
+#=============================================================================
+# Target rules for targets named run_Robot
+
+# Build rule for target.
+run_Robot: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_Robot
+.PHONY : run_Robot
+
+# fast build rule for target.
+run_Robot/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_Robot.dir/build.make CMakeFiles/run_Robot.dir/build
+.PHONY : run_Robot/fast
 
 02.1.HelloCone.o: 02.1.HelloCone.cpp.o
 .PHONY : 02.1.HelloCone.o
@@ -279,6 +305,30 @@ run_Molecule/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/03.1.Molecule.dir/build.make CMakeFiles/03.1.Molecule.dir/03.1.Molecule.cpp.s
 .PHONY : 03.1.Molecule.cpp.s
 
+03.2.Robot.o: 03.2.Robot.cpp.o
+.PHONY : 03.2.Robot.o
+
+# target to build an object file
+03.2.Robot.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/03.2.Robot.dir/build.make CMakeFiles/03.2.Robot.dir/03.2.Robot.cpp.o
+.PHONY : 03.2.Robot.cpp.o
+
+03.2.Robot.i: 03.2.Robot.cpp.i
+.PHONY : 03.2.Robot.i
+
+# target to preprocess a source file
+03.2.Robot.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/03.2.Robot.dir/build.make CMakeFiles/03.2.Robot.dir/03.2.Robot.cpp.i
+.PHONY : 03.2.Robot.cpp.i
+
+03.2.Robot.s: 03.2.Robot.cpp.s
+.PHONY : 03.2.Robot.s
+
+# target to generate assembly for a file
+03.2.Robot.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/03.2.Robot.dir/build.make CMakeFiles/03.2.Robot.dir/03.2.Robot.cpp.s
+.PHONY : 03.2.Robot.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -290,10 +340,12 @@ help:
 	@echo "... run_EngineSpin"
 	@echo "... run_HelloCone"
 	@echo "... run_Molecule"
+	@echo "... run_Robot"
 	@echo "... run_examples"
 	@echo "... 02.1.HelloCone"
 	@echo "... 02.2.EngineSpin"
 	@echo "... 03.1.Molecule"
+	@echo "... 03.2.Robot"
 	@echo "... 02.1.HelloCone.o"
 	@echo "... 02.1.HelloCone.i"
 	@echo "... 02.1.HelloCone.s"
@@ -303,6 +355,9 @@ help:
 	@echo "... 03.1.Molecule.o"
 	@echo "... 03.1.Molecule.i"
 	@echo "... 03.1.Molecule.s"
+	@echo "... 03.2.Robot.o"
+	@echo "... 03.2.Robot.i"
+	@echo "... 03.2.Robot.s"
 .PHONY : help
 
 

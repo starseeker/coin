@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     myCamera->viewAll(root, SbViewportRegion(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
     // Render to file
-    const char *filename = (argc > 1) ? argv[1] : "02.1.HelloCone.png";
+    const char *filename = (argc > 1) ? argv[1] : "02.1.HelloCone.rgb";
     if (!renderToFile(root, filename)) {
         root->unref();
         return 1;

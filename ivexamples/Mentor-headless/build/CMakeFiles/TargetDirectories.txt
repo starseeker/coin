@@ -1,9 +1,11 @@
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/02.1.HelloCone.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/02.2.EngineSpin.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/03.1.Molecule.dir
+/home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/03.2.Robot.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/run_examples.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/run_HelloCone.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/run_EngineSpin.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/run_Molecule.dir
+/home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/run_Robot.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/edit_cache.dir
 /home/runner/work/coin/coin/ivexamples/Mentor-headless/build/CMakeFiles/rebuild_cache.dir

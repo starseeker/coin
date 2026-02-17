@@ -283,12 +283,61 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
+bin/02.1.HelloCone: /home/runner/work/coin/coin/build/lib/libCoin.so \
+  /lib/x86_64-linux-gnu/libEGL.so.1 \
+  /lib/x86_64-linux-gnu/libGLX.so.0 \
+  /lib/x86_64-linux-gnu/libGLdispatch.so.0 \
+  /lib/x86_64-linux-gnu/libOpenGL.so.0 \
+  /lib/x86_64-linux-gnu/libX11.so.6 \
+  /lib/x86_64-linux-gnu/libXau.so.6 \
+  /lib/x86_64-linux-gnu/libXdmcp.so.6 \
+  /lib/x86_64-linux-gnu/libbsd.so.0 \
+  /lib/x86_64-linux-gnu/libc.so.6 \
+  /lib/x86_64-linux-gnu/libm.so.6 \
+  /lib/x86_64-linux-gnu/libmd.so.0 \
+  /lib/x86_64-linux-gnu/libmvec.so.1 \
+  /lib/x86_64-linux-gnu/libxcb.so.1 \
+  /lib64/ld-linux-x86-64.so.2 \
+  /usr/lib/x86_64-linux-gnu/Scrt1.o \
+  /usr/lib/x86_64-linux-gnu/crti.o \
+  /usr/lib/x86_64-linux-gnu/crtn.o \
+  /usr/lib/x86_64-linux-gnu/libGL.so \
+  /usr/lib/x86_64-linux-gnu/libGLU.so \
+  /usr/lib/x86_64-linux-gnu/libc.so \
+  /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 \
+  /usr/lib/x86_64-linux-gnu/libm.so \
+  /usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o \
+  /usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/x86_64-linux-gnu/13/libgcc.a \
+  /usr/lib/gcc/x86_64-linux-gnu/13/libgcc_s.so \
+  /usr/lib/gcc/x86_64-linux-gnu/13/libstdc++.so \
+  /usr/lib/x86_64-linux-gnu/libc_nonshared.a \
+  CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o
+
+
+/usr/lib/x86_64-linux-gnu/libc_nonshared.a:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/libstdc++.so:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/libgcc.a:
+
+/usr/lib/x86_64-linux-gnu/libm.so:
+
+/usr/lib/x86_64-linux-gnu/crtn.o:
+
+/lib64/ld-linux-x86-64.so.2:
+
+/lib/x86_64-linux-gnu/libmvec.so.1:
+
+/lib/x86_64-linux-gnu/libbsd.so.0:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
+
+/home/runner/work/coin/coin/build/lib/libCoin.so:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
@@ -338,6 +387,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/crtendS.o:
+
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
@@ -376,6 +427,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /usr/include/math.h:
 
+/lib/x86_64-linux-gnu/libm.so.6:
+
 /usr/include/inttypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
@@ -409,6 +462,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 /usr/include/c++/13/tr1/gamma.tcc:
 
 /usr/include/c++/13/tr1/ell_integral.tcc:
+
+/lib/x86_64-linux-gnu/libOpenGL.so.0:
 
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
@@ -490,6 +545,10 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /usr/include/c++/13/ext/aligned_buffer.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/13/libgcc_s.so:
+
+/usr/lib/x86_64-linux-gnu/crti.o:
+
 /home/runner/work/coin/coin/include/Inventor/lists/SoEnabledElementsList.h:
 
 /home/runner/work/coin/coin/include/Inventor/fields/SoMFColor.h:
@@ -503,6 +562,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 /home/runner/work/coin/coin/include/Inventor/elements/SoSubElement.h:
 
 /usr/include/c++/13/bits/move.h:
+
+/lib/x86_64-linux-gnu/libGLdispatch.so.0:
 
 /usr/include/c++/13/bits/shared_ptr_base.h:
 
@@ -536,6 +597,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /usr/include/c++/13/cstring:
 
+/lib/x86_64-linux-gnu/libX11.so.6:
+
 /home/runner/work/coin/coin/include/Inventor/fields/SoSubField.h:
 
 /home/runner/work/coin/coin/include/Inventor/nodes/SoSeparator.h:
@@ -551,6 +614,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 /usr/include/c++/13/bits/uses_allocator.h:
 
 /home/runner/work/coin/coin/include/Inventor/fields/SoMField.h:
+
+/lib/x86_64-linux-gnu/libXdmcp.so.6:
 
 /home/runner/work/coin/coin/include/Inventor/SbBox3f.h:
 
@@ -576,11 +641,19 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /home/runner/work/coin/coin/include/Inventor/C/base/rbptree.h:
 
+/usr/lib/x86_64-linux-gnu/Scrt1.o:
+
 /usr/include/wchar.h:
 
 /home/runner/work/coin/coin/include/Inventor/C/errors/debugerror.h:
 
 /home/runner/work/coin/coin/include/Inventor/SoPath.h:
+
+/usr/lib/x86_64-linux-gnu/libGLU.so:
+
+/lib/x86_64-linux-gnu/libmd.so.0:
+
+/lib/x86_64-linux-gnu/libc.so.6:
 
 /home/runner/work/coin/coin/include/Inventor/SoInput.h:
 
@@ -631,6 +704,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 /home/runner/work/coin/coin/include/Inventor/lists/SoBaseList.h:
 
 /home/runner/work/coin/coin/include/Inventor/fields/SoSFVec3f.h:
+
+/lib/x86_64-linux-gnu/libEGL.so.1:
 
 /home/runner/work/coin/coin/include/Inventor/SoFullPath.h:
 
@@ -684,7 +759,11 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /home/runner/work/coin/coin/include/Inventor/nodes/SoDirectionalLight.h:
 
+/usr/lib/x86_64-linux-gnu/libgcc_s.so.1:
+
 /home/runner/work/coin/coin/include/Inventor/nodes/SoGroup.h:
+
+/usr/lib/x86_64-linux-gnu/libc.so:
 
 /home/runner/work/coin/coin/include/Inventor/fields/SoMFFloat.h:
 
@@ -722,9 +801,15 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /home/runner/work/coin/coin/include/Inventor/sensors/SoSensorManager.h:
 
+/lib/x86_64-linux-gnu/libGLX.so.0:
+
 /home/runner/work/coin/coin/include/Inventor/tools/SbLazyPimplPtr.h:
 
+CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o:
+
 /home/runner/work/coin/coin/include/Inventor/tools/SbPimplPtr.h:
+
+/usr/lib/x86_64-linux-gnu/libGL.so:
 
 /home/runner/work/coin/coin/include/Inventor/SbVec3d.h:
 
@@ -760,6 +845,10 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 
 /usr/include/c++/13/bits/atomic_base.h:
 
+/lib/x86_64-linux-gnu/libxcb.so.1:
+
+/lib/x86_64-linux-gnu/libXau.so.6:
+
 /usr/include/c++/13/bits/functexcept.h:
 
 /home/runner/work/coin/coin/include/Inventor/fields/SoSFBitMask.h:
@@ -777,6 +866,8 @@ CMakeFiles/02.1.HelloCone.dir/02.1.HelloCone.cpp.o: /home/runner/work/coin/coin/
 /usr/include/c++/13/bits/invoke.h:
 
 /usr/include/c++/13/bits/predefined_ops.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/crtbeginS.o:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 

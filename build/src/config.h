@@ -446,7 +446,7 @@
 #define PACKAGE_VERSION "4.0.7"
 
 /* define for runtime linking with simage */
-#define SIMAGE_RUNTIME_LINKING 1
+/* #undef SIMAGE_RUNTIME_LINKING */
 
 /* define for choosing correct variable size */
 #define SIM_TIMEVAL_TV_SEC_T time_t

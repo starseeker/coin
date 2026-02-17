@@ -137,7 +137,7 @@ if(NOT COIN_BUILD_SHARED_LIBS)
 	endif()
 endif()
 
-set(_simage_FOUND )
+set(_simage_FOUND 0)
 if(_simage_FOUND)
 	find_dependency(simage)
 endif()
