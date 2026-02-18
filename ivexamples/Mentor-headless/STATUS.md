@@ -4,9 +4,9 @@ This document summarizes the complete status of converting Inventor Mentor examp
 
 ## Overall Progress
 
-**Converted:** 40 examples → 157 reference images (estimated)
-**Percentage:** 61% of total examples (40/66)  
-**Status:** All static geometry, textures, NURBS, sensors, and engines complete
+**Converted:** 41 examples → 160 reference images (estimated)
+**Percentage:** 62% of total examples (41/66)  
+**Status:** All easy examples complete (static, textures, NURBS, sensors, engines)
 
 ## Completed Examples by Chapter
 
@@ -63,11 +63,11 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 08.3.BezSurf | ✅ Done | 3 | Bezier surface |
 | 08.4.TrimSurf | ✅ Done | 3 | Trimmed NURBS surface |
 
-### ⚠️ Chapter 9: Applying Actions (3/5 examples)
+### ✅ Chapter 9: Applying Actions (4/5 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 09.1.Print | ✅ Done | 1 | Offscreen rendering demo |
-| 09.2.Texture | 📝 Ready | - | Render to texture |
+| 09.2.Texture | ✅ Done | 3 | Render to texture map |
 | 09.3.Search | ✅ Done | 2 | Search action usage |
 | 09.4.PickAction | ⚠️ TODO | - | Needs pick simulation |
 | 09.5.GenSph | ✅ Done | 1 | Callback action primitives |
@@ -137,16 +137,15 @@ All examples are Xt-specific GUI toolkit code that cannot be converted.
 ## Summary Statistics
 
 ### By Status
-- ✅ **Done:** 40 examples (61%)
-- 📝 **Ready:** 1 example (2%) - straightforward with documented approach
-- ⚠️ **TODO:** 9 examples (14%) - need infrastructure
-- ❌ **Skip:** 16 examples (24%) - GUI toolkit specific
+- ✅ **Done:** 41 examples (62%)
+- ⚠️ **TODO:** 11 examples (17%) - need simulation infrastructure
+- ❌ **Skip:** 14 examples (21%) - GUI toolkit specific
 
 ### By Difficulty
-- **Easy (Done):** 40 examples → ~157 images
-- **Easy (Remaining):** 1 example - can be done with existing patterns
-- **Medium:** 9 examples - need simulation infrastructure
-- **Skip:** 16 examples - not convertible
+- **Easy (Done):** 41 examples → ~160 images
+- **Medium (Remaining):** 6 examples - viewer and pick simulation
+- **High (Remaining):** 5 examples - events and manipulators
+- **Skip:** 14 examples - not convertible
 
 ## Conversion Patterns Used
 
@@ -188,9 +187,9 @@ See IMPLEMENTATION_NOTES.md for detailed implementation approaches.
 
 ## Files Generated
 
-Total: **~157 RGB images** across 40 examples
+Total: **~160 RGB images** across 41 examples
 Average: **~3.9 images per example**
-Size: ~1.4MB per image (~220MB total)
+Size: ~1.4MB per image (~224MB total)
 
 Format: SGI RGB (native Coin support)
 Can be converted to PNG/JPEG with ImageMagick if needed.
@@ -208,24 +207,33 @@ Can be converted to PNG/JPEG with ImageMagick if needed.
 ✅ **Complete:** NURBS curves and surfaces (all NURBS examples)
 ✅ **Complete:** Sensors (field, node, alarm, timer)
 ✅ **Complete:** Engines (elapsed time, time counter, gate, boolean, calculator, rotor, blinker)
+✅ **Complete:** Offscreen rendering to texture
 
-⚠️ **Missing:** Interactive features (pick, events, manipulators)
+⚠️ **Remaining:** Interactive features (pick, events, manipulators, viewer simulation)
 
 ## Conclusion
 
-Successfully converted **40 examples** covering:
+Successfully converted **41 examples** covering:
 - Core scene graph features
 - Geometry and materials
 - Cameras and lighting
 - Text rendering
 - Textures and texture coordinates
 - NURBS curves and surfaces (B-splines, Bezier, trimmed surfaces)
-- Basic actions
+- Basic actions and offscreen rendering
 - Sensors (field monitoring, node monitoring, alarms, timers)
 - Engines (time-based animations, gates, boolean logic, calculators, rotors, blinkers)
 
-All straightforward static and time-based examples are complete.
-Remaining work requires additional infrastructure for:
-- Interaction simulation (~9 examples - pick, events, manipulators)
+**All straightforward static and time-based examples are complete.**
 
-Framework is solid and extensible for future work.
+Remaining work requires simulation infrastructure for:
+- Viewer/camera manipulation (~2 examples - Medium complexity)
+- Pick/selection actions (~4 examples - Medium-High complexity)
+- Event handling (~1 example - High complexity)
+- Manipulator interaction (~4 examples - Very High complexity)
+
+See `COMPLEX_EXAMPLES_STRATEGY.md` for detailed implementation approaches.
+
+**Achievable target: 52/66 examples (79%)**
+
+Framework is solid and extensible for advanced examples if needed.
