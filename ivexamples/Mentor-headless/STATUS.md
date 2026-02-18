@@ -4,9 +4,9 @@ This document summarizes the complete status of converting Inventor Mentor examp
 
 ## Overall Progress
 
-**Converted:** 48 examples → 200+ reference images (estimated)
-**Percentage:** 73% of total examples (48/66)  
-**Status:** All easy examples complete, complex viewer/pick/event examples complete
+**Converted:** 58 examples → 260+ reference images (estimated)
+**Percentage:** 88% of total examples (58/66)  
+**Status:** All toolkit-agnostic examples complete, including previously skipped examples with mock toolkit functions
 
 ## Completed Examples by Chapter
 
@@ -72,16 +72,16 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 09.4.PickAction | ✅ Done | 3 | Pick action simulation with objects |
 | 09.5.GenSph | ✅ Done | 1 | Callback action primitives |
 
-### ✅ Chapter 10: Events and Selection (4/8 examples)
+### ✅ Chapter 10: Events and Selection (6/8 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 10.1.addEventCB | ✅ Done | 9 | Keyboard event simulation for scaling |
-| 10.2.setEventCB | ❌ Skip | - | Xt-specific |
+| 10.2.setEventCB | ✅ Done | 4 | Mock event translation pattern (NEW) |
 | 10.3and4.MotifList | ❌ Skip | - | Motif widget |
 | 10.5.SelectionCB | ✅ Done | 5 | Selection callbacks with color changes |
 | 10.6.PickFilterTopLevel | ✅ Done | 4 | Pick filter for top-level selection |
 | 10.7.PickFilterManip | ✅ Done | 3 | Pick filter through manipulators |
-| 10.8.PickFilterNodeKit | ❌ Skip | - | Xt-dependent |
+| 10.8.PickFilterNodeKit | ✅ Done | 7 | Mock material editor pattern (NEW) |
 
 ### ✅ Chapter 11: File I/O (2/2 examples)
 | Example | Status | Images | Notes |
@@ -109,11 +109,11 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 13.7.Rotor | ✅ Done | 13 | Rotating windmill vanes |
 | 13.8.Blinker | ✅ Done | 17 | Fast and slow blinking |
 
-### ✅ Chapter 14: Node Kits (2/3 examples)
+### ✅ Chapter 14: Node Kits (3/3 examples - COMPLETE)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 14.1.FrolickingWords | ✅ Done | 20 | Time-based animation with engines and nodekits |
-| 14.2.Editors | ❌ Skip | - | Widget editors |
+| 14.2.Editors | ✅ Done | 7 | Mock material and light editors with nodekits (NEW) |
 | 14.3.Balance | ✅ Done | 16 | NodeKit hierarchy with keyboard event simulation |
 
 ### ✅ Chapter 15: Draggers/Manipulators (4/4 examples)
@@ -124,8 +124,16 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 15.3.AttachManip | ✅ Done | - | Attach/detach manipulators (existing) |
 | 15.4.Customize | ✅ Done | 11 | Custom dragger geometry demonstration |
 
-### ❌ Chapter 16: Examiner Viewer (0/5 examples - All Skip)
-All examples are Xt-specific GUI toolkit code that cannot be converted.
+### ⚠️ Chapter 16: Examiner Viewer (2/5 examples - Mock Toolkit)
+Previously all skipped as Xt-specific, but some demonstrate toolkit-agnostic patterns with mock toolkit functions.
+
+| Example | Status | Images | Notes |
+|---------|--------|--------|-------|
+| 16.1.Overlay | ❌ Skip | - | GLX overlay planes (X11-specific) |
+| 16.2.Callback | ✅ Done | 4 | Mock material editor callbacks (NEW) |
+| 16.3.AttachEditor | ✅ Done | 5 | Mock material editor attachment (NEW) |
+| 16.4.OneWindow | ❌ Skip | - | Motif form layout |
+| 16.5.Examiner | ❌ Skip | - | ExaminerViewer customization (viewer simulation done in 02.4) |
 
 ### ✅ Chapter 17: OpenGL Integration (1/3 examples)
 | Example | Status | Images | Notes |
@@ -137,15 +145,15 @@ All examples are Xt-specific GUI toolkit code that cannot be converted.
 ## Summary Statistics
 
 ### By Status
-- ✅ **Done:** 53 examples (80%)
+- ✅ **Done:** 58 examples (88%)
 - ⚠️ **TODO:** 0 examples - all convertible examples completed
-- ❌ **Skip:** 13 examples (20%) - GUI toolkit specific
+- ❌ **Skip:** 8 examples (12%) - intrinsically GUI toolkit specific
 
 ### By Difficulty
 - **Easy (Done):** 41 examples → ~160 images (static, sensors, engines)
-- **Medium (Done):** 7 examples → ~50 images (viewer simulation, pick simulation, events)
-- **Advanced (Done):** 5 examples → ~65 images (nodekits, manipulators, OpenGL integration)
-- **Skip:** 13 examples - not convertible
+- **Medium (Done):** 9 examples → ~60 images (viewer simulation, pick simulation, events)
+- **Advanced (Done):** 8 examples → ~90 images (nodekits, manipulators, mock toolkit, OpenGL)
+- **Skip:** 8 examples - not convertible (true toolkit integration tests)
 
 ## Conversion Patterns Used
 
@@ -166,7 +174,7 @@ NodeKits, draggers, manipulators with direct value setting
 - No need for event simulation in many cases
 - Demonstrate toolkit-independent control
 
-### Pattern 3: Interaction Simulation (7 examples - COMPLETE)
+### Pattern 3: Interaction Simulation (9 examples - COMPLETE)
 Pick actions, events, camera control
 - Simulate mouse/keyboard events
 - Programmatic pick actions
@@ -179,18 +187,74 @@ NodeKits, draggers, manipulators with direct value setting
 - No need for event simulation in many cases
 - Demonstrate toolkit-independent control
 
+### Pattern 5: Mock GUI Toolkit (4 examples - NEW)
+Generic toolkit abstractions for previously "Xt-specific" examples
+- Mock render area with event callbacks
+- Mock material editor with callbacks and attachment
+- Native event translation pattern
+- Demonstrates toolkit-agnostic integration patterns
+
+## Mock GUI Toolkit Functions
+
+### New Infrastructure (mock_gui_toolkit.h)
+
+A comprehensive mock implementation demonstrating the minimal interface ANY toolkit must provide:
+
+**Components:**
+1. **MockRenderArea** - Window/viewport abstraction
+   - Scene graph management
+   - Event callback handling
+   - Native event translation
+   - Rendering to file
+
+2. **MockMaterialEditor** - Generic property editor pattern
+   - Material change callbacks
+   - Bidirectional attachment to material nodes
+   - Property editing methods
+   - Sync between editor and scene graph
+
+3. **MockExaminerViewer** - Minimal viewer interface
+   - Camera + scene management
+   - Coordinate with render area
+   - Demonstrate viewer pattern
+
+4. **Event Translation** - Native event → SoEvent
+   - Mock native event structures
+   - Translation functions
+   - Coordinate normalization
+   - Button/modifier mapping
+
+**New Examples Using Mock Toolkit:**
+- **10.2.setEventCB** - Event callback pattern (4 images)
+- **10.8.PickFilterNodeKit** - Pick filtering + material editor (7 images)
+- **16.2.Callback** - Material editor callbacks (4 images)
+- **16.3.AttachEditor** - Material editor attachment (5 images)
+
+**Documentation:**
+- See `MOCK_TOOLKIT_GUIDE.md` for complete details
+- Establishes patterns for Qt, FLTK, custom toolkits
+- Proves core Coin logic is toolkit-agnostic
+
 ## Conversion Complete
 
 ### All Convertible Examples Finished:
-✅ **53 out of 53 convertible examples complete** (100%)
+✅ **58 out of 58 convertible examples complete** (100%)
 
-The remaining 13 examples cannot be converted as they are intrinsically tied to specific GUI toolkit implementations (Motif/Xt widgets, render area specifics, toolkit event loops).
+The remaining 8 examples cannot be converted as they are intrinsically tied to specific GUI toolkit implementations:
+- **10.3and4.MotifList** - Motif list widget (tests widget integration)
+- **16.1.Overlay** - GLX overlay planes (X11-specific feature)
+- **16.4.OneWindow** - Motif form layout (widget management)
+- **16.5.Examiner** - Already covered by viewer simulation in 02.4
+- **17.1.ColorIndex** - Xt color management and XVisualInfo
+- **17.3.GLFloor** - GLX context creation and management
+- Plus 2 others testing toolkit-specific features
 
 ### Infrastructure Implemented:
 - ✅ **Time control utilities** - for sensors/engines
 - ✅ **Camera path generation** - for viewer examples
 - ✅ **Pick point generation** - for pick/selection examples
-- ✅ **Event simulation** - for keyboard/mouse events
+- ✅ **Event simulation** - keyboard/mouse for interactive examples
+- ✅ **Mock GUI toolkit** - generic abstractions for toolkit integration patterns
 - ✅ **Manipulator control** - programmatic value setting for draggers/manipulators
 - ✅ **OpenGL integration** - callback nodes work in headless mode
 
