@@ -47,6 +47,112 @@ cmake ..
 make
 ```
 
+### CMake Configuration Options
+
+You can configure the image comparison sensitivity at build time:
+
+```bash
+cmake -DIMAGE_COMPARISON_HASH_THRESHOLD=10 \
+      -DIMAGE_COMPARISON_RMSE_THRESHOLD=8.0 ..
+```
+
+**IMAGE_COMPARISON_HASH_THRESHOLD** (default: 5, range: 0-64):
+- Controls perceptual hash comparison tolerance
+- Lower = stricter, Higher = more tolerant
+- Useful for handling platform-specific rendering differences
+
+**IMAGE_COMPARISON_RMSE_THRESHOLD** (default: 5.0, range: 0-255):
+- Controls RMSE (Root Mean Square Error) tolerance
+- Lower = stricter, Higher = more tolerant
+- Useful for handling anti-aliasing and minor color variations
+
+## Automated Testing
+
+The headless examples include a comprehensive testing framework for regression testing.
+
+### Control Images
+
+Control (reference) images are stored in the `control_images/` directory. These serve as the baseline for image comparison tests.
+
+### Generating Control Images
+
+To generate control images for all examples:
+
+```bash
+cd build
+make generate_controls
+```
+
+Or manually:
+
+```bash
+cd ivexamples/Mentor-headless
+BUILD_DIR=build ./generate_control_images.sh
+```
+
+### Running Tests
+
+The project uses CTest for automated testing. Each test:
+1. Runs the example to generate a test image
+2. Compares it against the control image
+3. Reports pass/fail based on configurable thresholds
+
+Run all tests:
+
+```bash
+cd build
+ctest
+```
+
+Run specific tests:
+
+```bash
+ctest -R "HelloCone"
+ctest -R "Molecule"
+```
+
+Run with verbose output:
+
+```bash
+ctest -V
+ctest -VV  # Extra verbose
+```
+
+### Image Comparison
+
+The `image_comparator` utility provides three comparison methods:
+
+1. **Pixel-perfect comparison** - Exact byte-for-byte match
+2. **Perceptual hash comparison** - Approximate match using perceptual hashing algorithm
+   - Handles minor rendering differences (anti-aliasing, OpenGL driver variations)
+   - Configurable via `IMAGE_COMPARISON_HASH_THRESHOLD`
+3. **RMSE comparison** - Root Mean Square Error between images
+   - Handles color and brightness variations
+   - Configurable via `IMAGE_COMPARISON_RMSE_THRESHOLD`
+
+The comparator accepts approximate matches to handle:
+- Platform-specific OpenGL rendering differences
+- Font rendering variations across systems
+- Anti-aliasing implementation differences
+- Minor numerical precision differences in rendering
+
+### Manual Image Comparison
+
+You can manually compare images using the comparator:
+
+```bash
+./bin/image_comparator --threshold 10 --rmse 8.0 --verbose \
+    control_images/02.1.HelloCone_control.rgb \
+    test_output/02.1.HelloCone_test.rgb
+```
+
+Options:
+- `--threshold N` - Set perceptual hash threshold (0-64)
+- `--rmse N` - Set RMSE threshold (0-255)
+- `--strict` - Require pixel-perfect match
+- `--verbose` - Show detailed comparison metrics
+- `--help` - Show usage information
+
 ## Running Examples
 
 The examples require a display context to create OpenGL contexts, even for offscreen rendering. On Linux, you can use Xvfb (X Virtual Framebuffer):

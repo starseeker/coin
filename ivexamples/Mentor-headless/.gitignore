@@ -18,5 +18,11 @@ Makefile
 # Generated images
 *.png
 *.jpg
-*.rgb
 *.jpeg
+
+# Allow control images
+!control_images/*.rgb
+!control_images/**/*.rgb
+
+# Test output
+test_output/
