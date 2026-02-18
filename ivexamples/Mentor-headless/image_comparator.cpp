@@ -15,6 +15,11 @@
 #include <vector>
 #include <string>
 
+// Default thresholds - should match CMake defaults in CMakeLists.txt
+// IMAGE_COMPARISON_HASH_THRESHOLD and IMAGE_COMPARISON_RMSE_THRESHOLD
+const int DEFAULT_HASH_THRESHOLD = 5;      // 0-64 range
+const double DEFAULT_RMSE_THRESHOLD = 5.0; // 0-255 range
+
 // SGI RGB image header structure
 struct RGBHeader {
     unsigned short magic;      // 0x01da
@@ -96,7 +101,8 @@ static bool read_rgb_data(FILE* fp, const RGBHeader& header, std::vector<unsigne
             }
         }
     } else {
-        fprintf(stderr, "Error: RLE compressed RGB files not yet supported\n");
+        fprintf(stderr, "Error: RLE compressed RGB files not supported.\n");
+        fprintf(stderr, "Please convert to uncompressed format using: simage_convert input.rgb output.rgb\n");
         return false;
     }
     
@@ -229,9 +235,9 @@ static void print_usage(const char* prog) {
 }
 
 int main(int argc, char** argv) {
-    // Default parameters
-    int hash_threshold = 5;        // Maximum Hamming distance for perceptual hash
-    double rmse_threshold = 5.0;   // Maximum RMSE
+    // Default parameters (match CMake defaults in CMakeLists.txt)
+    int hash_threshold = DEFAULT_HASH_THRESHOLD;
+    double rmse_threshold = DEFAULT_RMSE_THRESHOLD;
     bool strict_mode = false;
     bool verbose = false;
     const char* ref_filename = nullptr;

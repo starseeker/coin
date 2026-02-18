@@ -107,18 +107,26 @@ for example in "${EXAMPLES[@]}"; do
         continue
     fi
     
-    # Run the example and capture its output
-    if "$exe" "$output" >/dev/null 2>&1; then
+    # Run the example and capture error output
+    error_file=$(mktemp)
+    if "$exe" "$output" >"$error_file" 2>&1; then
         if [ -f "$output" ]; then
             echo " OK"
         else
             echo " FAILED (no output file)"
+            if [ -s "$error_file" ]; then
+                echo "   Error: $(head -1 "$error_file")"
+            fi
             failed=$((failed + 1))
         fi
     else
         echo " FAILED (execution error)"
+        if [ -s "$error_file" ]; then
+            echo "   Error: $(head -1 "$error_file")"
+        fi
         failed=$((failed + 1))
     fi
+    rm -f "$error_file"
 done
 
 echo ""

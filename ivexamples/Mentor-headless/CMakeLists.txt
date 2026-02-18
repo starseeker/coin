@@ -7,6 +7,7 @@ project(MentorHeadlessExamples)
 # Hash threshold: 0-64 (default 5), RMSE threshold: 0-255 (default 5.0)
 set(IMAGE_COMPARISON_HASH_THRESHOLD "5" CACHE STRING "Perceptual hash comparison threshold (0-64)")
 set(IMAGE_COMPARISON_RMSE_THRESHOLD "5.0" CACHE STRING "RMSE comparison threshold (0-255)")
+set(IMAGE_COMPARISON_TEST_TIMEOUT "30" CACHE STRING "Timeout in seconds for each test (default 30)")
 
 # Find Coin package
 # First try to find Coin in the build tree
@@ -188,11 +189,11 @@ macro(add_image_test example_name)
                 -DCOMPARATOR=$<TARGET_FILE:image_comparator>
                 -DHASH_THRESHOLD=${IMAGE_COMPARISON_HASH_THRESHOLD}
                 -DRMSE_THRESHOLD=${IMAGE_COMPARISON_RMSE_THRESHOLD}
+                -DTEST_TIMEOUT=${IMAGE_COMPARISON_TEST_TIMEOUT}
                 -P ${CMAKE_CURRENT_SOURCE_DIR}/run_image_test.cmake
         )
         set_tests_properties(${example_name}_test PROPERTIES
-            DEPENDS ${example_name}
-            TIMEOUT 30
+            TIMEOUT ${IMAGE_COMPARISON_TEST_TIMEOUT}
         )
     endif()
 endmacro()
