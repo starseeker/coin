@@ -5,3 +5,6 @@
 	path = docs/doxygen-awesome
 	url = https://github.com/coin3d/doxygen-awesome-css.git
 	branch = coin3d
+[submodule "ivexamples/osmesa"]
+	path = ivexamples/osmesa
+	url = https://github.com/starseeker/osmesa
