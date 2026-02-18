@@ -50,6 +50,51 @@ echo "  Running Molecule..."
 echo "  Running Robot..."
 "$BIN_DIR/03.2.Robot" 2>&1 | grep -i "success\|error" | tail -1
 
+echo "  Running Naming..."
+"$BIN_DIR/03.3.Naming" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Cameras..."
+"$BIN_DIR/04.1.Cameras" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Lights..."
+"$BIN_DIR/04.2.Lights" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running FaceSet..."
+"$BIN_DIR/05.1.FaceSet" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running IndexedFaceSet..."
+"$BIN_DIR/05.2.IndexedFaceSet" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running TriangleStripSet..."
+"$BIN_DIR/05.3.TriangleStripSet" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running QuadMesh..."
+"$BIN_DIR/05.4.QuadMesh" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Binding..."
+"$BIN_DIR/05.5.Binding" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Text..."
+"$BIN_DIR/06.1.Text" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Simple3DText..."
+"$BIN_DIR/06.2.Simple3DText" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running BasicTexture..."
+"$BIN_DIR/07.1.BasicTexture" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Print..."
+"$BIN_DIR/09.1.Print" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Search..."
+"$BIN_DIR/09.3.Search" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running ReadFile..."
+"$BIN_DIR/11.1.ReadFile" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running ReadString..."
+"$BIN_DIR/11.2.ReadString" 2>&1 | grep -i "success\|error" | tail -1
+
 # List generated files
 echo ""
 echo "Generated images:"
