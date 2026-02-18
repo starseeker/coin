@@ -101,9 +101,18 @@ add_headless_example(13.6.Calculator)
 add_headless_example(13.7.Rotor)
 add_headless_example(13.8.Blinker)
 
+# Chapter 14: NodeKits
+add_headless_example(14.1.FrolickingWords)
+add_headless_example(14.3.Balance)
+
 # Chapter 15: Manipulators
 add_headless_example(15.1.ConeRadius)
+add_headless_example(15.2.SliderBox)
 add_headless_example(15.3.AttachManip)
+add_headless_example(15.4.Customize)
+
+# Chapter 17: OpenGL Integration
+add_headless_example(17.2.GLCallback)
 
 # Create output directory for rendered images
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/output")
