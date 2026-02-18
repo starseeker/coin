@@ -30,6 +30,15 @@ echo "Using binaries from: $BIN_DIR"
 echo "Data directory: $IVEXAMPLES_DATA_DIR"
 echo ""
 
+# Set up cleanup on exit
+cleanup() {
+    rm -f "$temp_error_file" 2>/dev/null
+}
+trap cleanup EXIT INT TERM
+
+# Create temporary file for error capture
+temp_error_file=$(mktemp)
+
 # List of all examples to run
 EXAMPLES=(
     "02.1.HelloCone"
@@ -108,25 +117,23 @@ for example in "${EXAMPLES[@]}"; do
     fi
     
     # Run the example and capture error output
-    error_file=$(mktemp)
-    if "$exe" "$output" >"$error_file" 2>&1; then
+    if "$exe" "$output" >"$temp_error_file" 2>&1; then
         if [ -f "$output" ]; then
             echo " OK"
         else
             echo " FAILED (no output file)"
-            if [ -s "$error_file" ]; then
-                echo "   Error: $(head -1 "$error_file")"
+            if [ -s "$temp_error_file" ]; then
+                echo "   Error: $(head -1 "$temp_error_file")"
             fi
             failed=$((failed + 1))
         fi
     else
         echo " FAILED (execution error)"
-        if [ -s "$error_file" ]; then
-            echo "   Error: $(head -1 "$error_file")"
+        if [ -s "$temp_error_file" ]; then
+            echo "   Error: $(head -1 "$temp_error_file")"
         fi
         failed=$((failed + 1))
     fi
-    rm -f "$error_file"
 done
 
 echo ""

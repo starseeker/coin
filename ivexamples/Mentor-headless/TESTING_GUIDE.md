@@ -315,10 +315,10 @@ Different platforms may produce slightly different rendering:
 
 | Platform | Typical Differences | Recommended Thresholds |
 |----------|-------------------|------------------------|
-| Same machine | Minimal | Hash: 0-5, RMSE: 0-5 |
-| Same OS, different GPU | Minor anti-aliasing | Hash: 5-10, RMSE: 5-8 |
-| Different OS | Font rendering, colors | Hash: 10-20, RMSE: 8-15 |
-| Different drivers | OpenGL implementations | Hash: 15-25, RMSE: 10-20 |
+| Same machine | Minimal | Hash: 0-4, RMSE: 0-4.9 |
+| Same OS, different GPU | Minor anti-aliasing | Hash: 5-9, RMSE: 5.0-7.9 |
+| Different OS | Font rendering, colors | Hash: 10-19, RMSE: 8.0-14.9 |
+| Different drivers | OpenGL implementations | Hash: 15-25, RMSE: 10.0-20.0 |
 
 ## Example Workflows
 

@@ -102,7 +102,9 @@ static bool read_rgb_data(FILE* fp, const RGBHeader& header, std::vector<unsigne
         }
     } else {
         fprintf(stderr, "Error: RLE compressed RGB files not supported.\n");
-        fprintf(stderr, "Please convert to uncompressed format using: simage_convert input.rgb output.rgb\n");
+        fprintf(stderr, "Please convert to uncompressed format using:\n");
+        fprintf(stderr, "  ImageMagick: convert input.rgb output.rgb\n");
+        fprintf(stderr, "  Or simage_convert if simage library is installed\n");
         return false;
     }
     

@@ -77,17 +77,17 @@ cmake -DIMAGE_COMPARISON_HASH_THRESHOLD=10 \
 
 **Hash Threshold** (0-64):
 - 0 = Pixel-perfect match required
-- 1-5 = Very strict (minor rendering differences, anti-aliasing)
-- 5-10 = Moderate (font rendering variations, OpenGL driver differences)
-- 10-20 = Tolerant (acceptable for cross-platform testing)
+- 1-4 = Very strict (minor rendering differences, anti-aliasing)
+- 5-9 = Moderate (font rendering variations, OpenGL driver differences)
+- 10-19 = Tolerant (acceptable for cross-platform testing)
 - 20+ = Very tolerant (major differences acceptable)
 
 **RMSE Threshold** (0-255):
 - 0.0 = Pixel-perfect match required
-- 1-5 = Very strict (minimal color/brightness variations)
-- 5-10 = Moderate (acceptable rendering differences)
-- 10-20 = Tolerant (noticeable but acceptable differences)
-- 20+ = Very tolerant (significant differences acceptable)
+- 0.1-4.9 = Very strict (minimal color/brightness variations)
+- 5.0-9.9 = Moderate (acceptable rendering differences)
+- 10.0-19.9 = Tolerant (noticeable but acceptable differences)
+- 20.0+ = Very tolerant (significant differences acceptable)
 
 ## Updating Control Images
 
