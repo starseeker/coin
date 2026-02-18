@@ -83,12 +83,12 @@ Examples that are tightly coupled to specific GUI toolkits (Motif/Xt widgets) an
 ### Chapter 10: Handling Events and Selection
 | Example | Status | Notes |
 |---------|--------|-------|
-| 10.1.addEventCB | ⚠️  Convert | Event callbacks - simulate key events |
+| 10.1.addEventCB | ✅ Enhanced | Event callbacks - uses simulateKeyPress from manipulator pattern |
 | 10.2.setEventCB | ❌ Skip | Xt-specific event handling |
 | 10.3and4.MotifList | ❌ Skip | Motif-specific widget |
-| 10.5.SelectionCB | ⚠️  Convert | Selection callbacks - programmatic selection |
-| 10.6.PickFilterTopLevel | ⚠️  Convert | Pick filtering - simulate picks |
-| 10.7.PickFilterManip | ⚠️  Convert | Manipulator pick filtering |
+| 10.5.SelectionCB | ✅ Enhanced | Selection callbacks - documented event vs programmatic approaches |
+| 10.6.PickFilterTopLevel | ✅ Done | Pick filtering - programmatic picks |
+| 10.7.PickFilterManip | ✅ Done | Manipulator pick filtering |
 | 10.8.PickFilterNodeKit | ❌ Skip | NodeKit-specific, Xt-dependent |
 
 ### Chapter 11: File I/O
@@ -127,9 +127,9 @@ Examples that are tightly coupled to specific GUI toolkits (Motif/Xt widgets) an
 ### Chapter 15: Draggers and Manipulators
 | Example | Status | Notes |
 |---------|--------|-------|
-| 15.1.ConeRadius | ⚠️  Convert | Manipulator - set values programmatically |
+| 15.1.ConeRadius | ✅ Done | Dragger controlling cone via engine - programmatic value setting |
 | 15.2.SliderBox | ⚠️  Convert | Slider manipulator - render at positions |
-| 15.3.AttachManip | ⚠️  Convert | Attach manipulator - show before/after |
+| 15.3.AttachManip | ✅ Done | Attach/detach manipulators - show different manipulator types |
 | 15.4.Customize | ⚠️  Convert | Custom manipulator - render variations |
 
 ### Chapter 16: Examiner Viewer

@@ -20,8 +20,13 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/actions/SoSearchAction.h>
 #include <Inventor/actions/SoGetBoundingBoxAction.h>
+#include <Inventor/actions/SoHandleEventAction.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/events/SoLocation2Event.h>
+#include <Inventor/events/SoKeyboardEvent.h>
 #include <cstdio>
 #include <cstring>
+#include <cmath>
 
 // Default image dimensions
 #define DEFAULT_WIDTH 800
@@ -170,6 +175,153 @@ inline void rotateCamera(SoCamera *camera, float azimuth, float elevation) {
     // Apply rotations
     SbRotation newOrientation = orientation * azimuthRot * elevationRot;
     camera->orientation.setValue(newOrientation);
+}
+
+/**
+ * Simulate a mouse button press event
+ * @param root Scene graph root
+ * @param viewport Viewport region
+ * @param x Screen X coordinate (pixels)
+ * @param y Screen Y coordinate (pixels)
+ * @param button Mouse button (default: BUTTON1)
+ */
+inline void simulateMousePress(
+    SoNode *root,
+    const SbViewportRegion &viewport,
+    int x, int y,
+    SoMouseButtonEvent::Button button = SoMouseButtonEvent::BUTTON1)
+{
+    SoMouseButtonEvent event;
+    event.setButton(button);
+    event.setState(SoButtonEvent::DOWN);
+    event.setPosition(SbVec2s((short)x, (short)y));
+    event.setTime(SbTime::getTimeOfDay());
+    
+    SoHandleEventAction action(viewport);
+    action.setEvent(&event);
+    action.apply(root);
+}
+
+/**
+ * Simulate a mouse button release event
+ * @param root Scene graph root
+ * @param viewport Viewport region
+ * @param x Screen X coordinate (pixels)
+ * @param y Screen Y coordinate (pixels)
+ * @param button Mouse button (default: BUTTON1)
+ */
+inline void simulateMouseRelease(
+    SoNode *root,
+    const SbViewportRegion &viewport,
+    int x, int y,
+    SoMouseButtonEvent::Button button = SoMouseButtonEvent::BUTTON1)
+{
+    SoMouseButtonEvent event;
+    event.setButton(button);
+    event.setState(SoButtonEvent::UP);
+    event.setPosition(SbVec2s((short)x, (short)y));
+    event.setTime(SbTime::getTimeOfDay());
+    
+    SoHandleEventAction action(viewport);
+    action.setEvent(&event);
+    action.apply(root);
+}
+
+/**
+ * Simulate mouse motion event
+ * @param root Scene graph root
+ * @param viewport Viewport region
+ * @param x Screen X coordinate (pixels)
+ * @param y Screen Y coordinate (pixels)
+ */
+inline void simulateMouseMotion(
+    SoNode *root,
+    const SbViewportRegion &viewport,
+    int x, int y)
+{
+    SoLocation2Event event;
+    event.setPosition(SbVec2s((short)x, (short)y));
+    event.setTime(SbTime::getTimeOfDay());
+    
+    SoHandleEventAction action(viewport);
+    action.setEvent(&event);
+    action.apply(root);
+}
+
+/**
+ * Simulate a mouse drag gesture from start to end position
+ * @param root Scene graph root
+ * @param viewport Viewport region
+ * @param startX Start X coordinate
+ * @param startY Start Y coordinate
+ * @param endX End X coordinate
+ * @param endY End Y coordinate
+ * @param steps Number of intermediate steps (default: 10)
+ * @param button Mouse button (default: BUTTON1)
+ */
+inline void simulateMouseDrag(
+    SoNode *root,
+    const SbViewportRegion &viewport,
+    int startX, int startY,
+    int endX, int endY,
+    int steps = 10,
+    SoMouseButtonEvent::Button button = SoMouseButtonEvent::BUTTON1)
+{
+    // Initial press
+    simulateMousePress(root, viewport, startX, startY, button);
+    
+    // Simulate dragging with intermediate motion events
+    for (int i = 1; i <= steps; i++) {
+        float t = (float)i / (float)steps;
+        int x = (int)(startX + t * (endX - startX));
+        int y = (int)(startY + t * (endY - startY));
+        simulateMouseMotion(root, viewport, x, y);
+    }
+    
+    // Final release
+    simulateMouseRelease(root, viewport, endX, endY, button);
+}
+
+/**
+ * Simulate a keyboard key press event
+ * @param root Scene graph root
+ * @param viewport Viewport region
+ * @param key Key to press
+ */
+inline void simulateKeyPress(
+    SoNode *root,
+    const SbViewportRegion &viewport,
+    SoKeyboardEvent::Key key)
+{
+    SoKeyboardEvent event;
+    event.setKey(key);
+    event.setState(SoButtonEvent::DOWN);
+    event.setTime(SbTime::getTimeOfDay());
+    
+    SoHandleEventAction action(viewport);
+    action.setEvent(&event);
+    action.apply(root);
+}
+
+/**
+ * Simulate a keyboard key release event
+ * @param root Scene graph root
+ * @param viewport Viewport region
+ * @param key Key to release
+ */
+inline void simulateKeyRelease(
+    SoNode *root,
+    const SbViewportRegion &viewport,
+    SoKeyboardEvent::Key key)
+{
+    SoKeyboardEvent event;
+    event.setKey(key);
+    event.setState(SoButtonEvent::UP);
+    event.setTime(SbTime::getTimeOfDay());
+    
+    SoHandleEventAction action(viewport);
+    action.setEvent(&event);
+    action.apply(root);
 }
 
 #endif // HEADLESS_UTILS_H

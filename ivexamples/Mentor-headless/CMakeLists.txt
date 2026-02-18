@@ -101,6 +101,10 @@ add_headless_example(13.6.Calculator)
 add_headless_example(13.7.Rotor)
 add_headless_example(13.8.Blinker)
 
+# Chapter 15: Manipulators
+add_headless_example(15.1.ConeRadius)
+add_headless_example(15.3.AttachManip)
+
 # Create output directory for rendered images
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/output")
 
