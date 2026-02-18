@@ -105,6 +105,7 @@ add_headless_example(13.8.Blinker)
 
 # Chapter 14: NodeKits
 add_headless_example(14.1.FrolickingWords)
+add_headless_example(14.2.Editors)
 add_headless_example(14.3.Balance)
 
 # Chapter 15: Manipulators

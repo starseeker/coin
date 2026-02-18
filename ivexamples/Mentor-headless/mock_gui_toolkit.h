@@ -23,8 +23,10 @@
 #include "headless_utils.h"
 #include <Inventor/SoDB.h>
 #include <Inventor/SoOffscreenRenderer.h>
+#include <Inventor/SoPath.h>
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/nodes/SoNode.h>
+#include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoTransform.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
@@ -33,6 +35,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
+#include <functional>
 #include <functional>
 
 //=============================================================================
@@ -243,6 +246,133 @@ protected:
     SoMaterial* m_attachedMaterial;
     SoMaterial* m_currentMaterial;
     bool m_ignoreCallback;
+    std::vector<CallbackInfo> m_callbacks;
+};
+
+//=============================================================================
+// Mock Directional Light Editor
+// Represents a generic directional light editor for any toolkit
+//=============================================================================
+
+class MockDirectionalLightEditor {
+public:
+    MockDirectionalLightEditor() 
+        : m_attachedLight(NULL), m_ignoreCallback(false)
+    {
+        // Initialize with default light
+        m_currentLight = new SoDirectionalLight;
+        m_currentLight->ref();
+    }
+    
+    virtual ~MockDirectionalLightEditor() {
+        if (m_currentLight) {
+            m_currentLight->unref();
+        }
+    }
+    
+    // Light change callbacks
+    typedef void (*LightChangedCallback)(void* userData, SoNode* light);
+    
+    struct CallbackInfo {
+        LightChangedCallback callback;
+        void* userData;
+    };
+    
+    void addLightChangedCallback(LightChangedCallback callback, void* userData) {
+        CallbackInfo info;
+        info.callback = callback;
+        info.userData = userData;
+        m_callbacks.push_back(info);
+    }
+    
+    // Attach to a directional light node or path
+    // In real toolkit, would accept SoPath* or SoDirectionalLight*
+    void attach(SoPath* path) {
+        if (!path) return;
+        
+        SoNode* tail = path->getTail();
+        if (tail && tail->isOfType(SoDirectionalLight::getClassTypeId())) {
+            m_attachedLight = (SoDirectionalLight*)tail;
+            
+            // Sync editor to match attached light
+            m_ignoreCallback = true;
+            m_currentLight->direction.setValue(m_attachedLight->direction.getValue());
+            m_currentLight->color.setValue(m_attachedLight->color.getValue());
+            m_currentLight->intensity.setValue(m_attachedLight->intensity.getValue());
+            m_currentLight->on.setValue(m_attachedLight->on.getValue());
+            m_ignoreCallback = false;
+        }
+    }
+    
+    void attach(SoDirectionalLight* light) {
+        m_attachedLight = light;
+        
+        if (light) {
+            // Sync editor to match attached light
+            m_ignoreCallback = true;
+            m_currentLight->direction.setValue(light->direction.getValue());
+            m_currentLight->color.setValue(light->color.getValue());
+            m_currentLight->intensity.setValue(light->intensity.getValue());
+            m_currentLight->on.setValue(light->on.getValue());
+            m_ignoreCallback = false;
+        }
+    }
+    
+    void detach() {
+        m_attachedLight = NULL;
+    }
+    
+    // Simulate user changing light properties
+    void setDirection(const SbVec3f& direction) {
+        m_currentLight->direction.setValue(direction);
+        if (m_attachedLight) {
+            m_attachedLight->direction.setValue(direction);
+        }
+        if (!m_ignoreCallback) notifyCallbacks();
+    }
+    
+    void setColor(const SbColor& color) {
+        m_currentLight->color.setValue(color);
+        if (m_attachedLight) {
+            m_attachedLight->color.setValue(color);
+        }
+        if (!m_ignoreCallback) notifyCallbacks();
+    }
+    
+    void setIntensity(float intensity) {
+        m_currentLight->intensity.setValue(intensity);
+        if (m_attachedLight) {
+            m_attachedLight->intensity.setValue(intensity);
+        }
+        if (!m_ignoreCallback) notifyCallbacks();
+    }
+    
+    void setOn(SbBool on) {
+        m_currentLight->on.setValue(on);
+        if (m_attachedLight) {
+            m_attachedLight->on.setValue(on);
+        }
+        if (!m_ignoreCallback) notifyCallbacks();
+    }
+    
+    const SoDirectionalLight* getLight() const { return m_currentLight; }
+    
+    // In real toolkit, this would show the editor window
+    void show() { printf("MockDirectionalLightEditor::show()\n"); }
+    void hide() { printf("MockDirectionalLightEditor::hide()\n"); }
+    void setTitle(const char* title) { m_title = title; }
+    
+protected:
+    void notifyCallbacks() {
+        for (size_t i = 0; i < m_callbacks.size(); i++) {
+            m_callbacks[i].callback(m_callbacks[i].userData, m_currentLight);
+        }
+    }
+    
+    SoDirectionalLight* m_attachedLight;
+    SoDirectionalLight* m_currentLight;
+    bool m_ignoreCallback;
+    std::string m_title;
     std::vector<CallbackInfo> m_callbacks;
 };
 

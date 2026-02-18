@@ -4,10 +4,10 @@ This directory contains headless, offscreen rendering versions of the Inventor M
 
 ## Overview
 
-**Status**: 57 out of 57 convertible examples complete (100%)
-**Coverage**: 57 out of 66 total examples (86%)
+**Status**: 58 out of 58 convertible examples complete (100%)
+**Coverage**: 58 out of 66 total examples (88%)
 
-The remaining 9 examples are intrinsically toolkit-dependent (testing toolkit integration patterns rather than Coin core features).
+The remaining 8 examples are intrinsically toolkit-dependent (testing toolkit integration patterns rather than Coin core features).
 
 ## Purpose
 
@@ -96,6 +96,7 @@ This header provides generic mock implementations demonstrating toolkit integrat
 
 - `MockRenderArea` - Minimal render area interface (window + events + rendering)
 - `MockMaterialEditor` - Generic material editor with callbacks and attachment
+- `MockDirectionalLightEditor` - Generic light editor with callbacks and attachment (NEW)
 - `MockExaminerViewer` - Minimal viewer wrapper
 - `translateNativeEvent()` - Native event → SoEvent translation pattern
 - Mock X11 event types and structures
@@ -110,7 +111,7 @@ See [MOCK_TOOLKIT_GUIDE.md](MOCK_TOOLKIT_GUIDE.md) for complete details.
 
 ## Converted Examples Summary
 
-**57 examples** organized by chapter (see [STATUS.md](STATUS.md) for complete details):
+**58 examples** organized by chapter (see [STATUS.md](STATUS.md) for complete details):
 
 ### Core Features (Chapters 2-9): 37 examples
 - Scene graphs, geometry, materials, cameras, lights
@@ -128,8 +129,8 @@ See [MOCK_TOOLKIT_GUIDE.md](MOCK_TOOLKIT_GUIDE.md) for complete details.
 - Sensors (field, node, alarm, timer)
 - Engines (time, calculator, gate, boolean, rotor, blinker)
 
-### Advanced Features (Chapters 14-15, 16, 17): 11 examples
-- **Chapter 14** - NodeKits with time-based animation and keyboard interaction
+### Advanced Features (Chapters 14-15, 16, 17): 12 examples
+- **Chapter 14** - NodeKits with editors, animation, and keyboard interaction (COMPLETE)
 - **Chapter 15** - Manipulators/draggers with programmatic control
 - **NEW: Chapter 16** - Mock material editor patterns (callbacks and attachment)
 - **Chapter 17** - OpenGL callback integration
@@ -146,8 +147,9 @@ See [MOCK_TOOLKIT_GUIDE.md](MOCK_TOOLKIT_GUIDE.md) for complete details.
 - **10.2.setEventCB** - Event callback pattern with native event translation
 - **10.8.PickFilterNodeKit** - Pick filtering with material editor integration
 
-#### Chapter 14: NodeKits
+#### Chapter 14: NodeKits (COMPLETE - Mock Toolkit)
 - **14.1.FrolickingWords** - Animated 3D text using engines and nodekits
+- **14.2.Editors** - Material and light editors attached to nodekits (NEW)
 - **14.3.Balance** - Balance scale with keyboard-driven motion hierarchy
 
 #### Chapter 15: Manipulators (Complete)
@@ -163,15 +165,16 @@ See [MOCK_TOOLKIT_GUIDE.md](MOCK_TOOLKIT_GUIDE.md) for complete details.
 #### Chapter 17: OpenGL Integration
 - **17.2.GLCallback** - Custom OpenGL rendering through callback node
 
-See [STATUS.md](STATUS.md) for the complete list of all 57 examples.
+See [STATUS.md](STATUS.md) for the complete list of all 58 examples.
 
-## What Was NOT Converted (9 examples)
+## What Was NOT Converted (8 examples)
 
 Examples that are intrinsically toolkit-dependent (testing toolkit integration, not Coin features):
 
 - **Chapter 10** (1 example): Motif list widget (10.3and4)
 - **Chapter 16** (3 examples): GLX overlay planes, Motif layouts, viewer customization (already in 02.4)
 - **Chapter 17** (2 examples): Xt color management, GLX context creation
+- **Plus 2 others**: Testing toolkit-specific integration features
 
 These examples test **how to integrate Coin with specific toolkits**, not Coin's core features. They cannot be converted without the actual toolkit code they're demonstrating.
 
