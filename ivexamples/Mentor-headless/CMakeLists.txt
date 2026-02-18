@@ -54,6 +54,8 @@ endif()
 # Add headless examples
 add_headless_example(02.1.HelloCone)
 add_headless_example(02.2.EngineSpin)
+add_headless_example(02.3.Trackball)
+add_headless_example(02.4.Examiner)
 add_headless_example(03.1.Molecule)
 add_headless_example(03.2.Robot)
 add_headless_example(03.3.Naming)
