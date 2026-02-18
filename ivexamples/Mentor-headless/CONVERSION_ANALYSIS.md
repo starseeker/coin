@@ -127,9 +127,9 @@ Examples that are tightly coupled to specific GUI toolkits (Motif/Xt widgets) an
 ### Chapter 15: Draggers and Manipulators
 | Example | Status | Notes |
 |---------|--------|-------|
-| 15.1.ConeRadius | ⚠️  Convert | Manipulator - set values programmatically |
+| 15.1.ConeRadius | ✅ Done | Dragger controlling cone via engine - programmatic value setting |
 | 15.2.SliderBox | ⚠️  Convert | Slider manipulator - render at positions |
-| 15.3.AttachManip | ⚠️  Convert | Attach manipulator - show before/after |
+| 15.3.AttachManip | ✅ Done | Attach/detach manipulators - show different manipulator types |
 | 15.4.Customize | ⚠️  Convert | Custom manipulator - render variations |
 
 ### Chapter 16: Examiner Viewer

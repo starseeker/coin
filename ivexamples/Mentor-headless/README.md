@@ -73,9 +73,19 @@ This header provides utility functions for headless rendering:
 ### Chapter 2: Basic Examples
 - **02.1.HelloCone** - Simple red cone rendering
 - **02.2.EngineSpin** - Animated spinning cone (renders multiple frames)
+- **02.3.Trackball** - Trackball rotation simulation
+- **02.4.Examiner** - Examiner viewer with predefined viewpoints
 
 ### Chapter 3: Scene Graphs  
 - **03.1.Molecule** - Water molecule from multiple viewpoints
+- **03.2.Robot** - Robot assembly with shared geometry
+- **03.3.Naming** - Named nodes demonstration
+
+(Chapters 4-14 examples omitted for brevity - see CONVERSION_ANALYSIS.md)
+
+### Chapter 15: Manipulators
+- **15.1.ConeRadius** - Dragger controlling cone radius via engine
+- **15.3.AttachManip** - Attaching/detaching different manipulator types
 
 ## Examples Skipped
 
@@ -122,7 +132,19 @@ Additional examples to be converted:
 - Chapter 5-7: Geometry, Materials, and Textures
 - Chapter 8-9: NURBS and Rendering Actions
 - Chapter 12-13: Sensors and Engines
-- Chapter 14-15: Manipulators (with simulated interactions)
+- Chapter 15: Remaining manipulators (15.2, 15.4)
+
+## Manipulators
+
+Manipulator examples (Chapter 15) demonstrate that manipulators are **completely toolkit-agnostic** and work with Coin's internal event system. See `MANIPULATOR_ANALYSIS.md` for detailed analysis proving manipulators are self-contained within Coin and suitable for headless testing.
+
+The event simulation infrastructure in `headless_utils.h` provides:
+- Mouse button press/release simulation
+- Mouse drag gesture simulation  
+- Keyboard event simulation
+- Proper viewport context for coordinate transformation
+
+This establishes the pattern for future toolkit integration where GUI frameworks translate their native events into Coin's SoEvent objects.
 
 ## Contributing
 
