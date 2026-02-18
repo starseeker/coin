@@ -101,47 +101,6 @@ void myKeyPressCB(void *userData, SoEventCallback *eventCB)
     }
 }
 
-// Legacy function - kept for reference but no longer used in headless mode
-// In the new pattern, we use actual event simulation instead of direct calls
-void scaleSelection(SoSelection *selection, float scaleFactor)
-{
-    for (int i = 0; i < selection->getNumSelected(); i++) {
-        SoPath *selectedPath = selection->getPath(i);
-        SoTransform *xform = NULL;
-
-        // Look for the shape node to identify which transform to modify
-        for (int j = 0; j < selectedPath->getLength() && (xform == NULL); j++) {
-            SoNode *n = selectedPath->getNodeFromTail(j);
-            if (n->isOfType(SoCube::getClassTypeId())) {
-                xform = cubeTransform;
-            } else if (n->isOfType(SoCone::getClassTypeId())) {
-                xform = coneTransform;
-            } else if (n->isOfType(SoSphere::getClassTypeId())) {
-                xform = sphereTransform;
-            } else if (n->isOfType(SoCylinder::getClassTypeId())) {
-                xform = cylTransform;
-            }
-        }
-
-        if (xform) {
-            // Apply the scale
-            SbVec3f currentScale = xform->scaleFactor.getValue();
-            currentScale *= scaleFactor;
-            xform->scaleFactor.setValue(currentScale);
-            
-            const char *shapeName = "unknown";
-            if (xform == cubeTransform) shapeName = "cube";
-            else if (xform == sphereTransform) shapeName = "sphere";
-            else if (xform == coneTransform) shapeName = "cone";
-            else if (xform == cylTransform) shapeName = "cylinder";
-            
-            printf("Scaled %s by %.2f to (%.2f, %.2f, %.2f)\n", 
-                   shapeName, scaleFactor,
-                   currentScale[0], currentScale[1], currentScale[2]);
-        }
-    }
-}
-
 int main(int argc, char **argv)
 {
     initCoinHeadless();
