@@ -43,7 +43,8 @@
 class MockRenderArea {
 public:
     MockRenderArea(int width = DEFAULT_WIDTH, int height = DEFAULT_HEIGHT)
-        : m_width(width), m_height(height), m_sceneGraph(NULL)
+        : m_width(width), m_height(height), m_sceneGraph(NULL),
+          m_eventCallback(nullptr), m_eventCallbackUserData(nullptr)
     {
         m_viewport.setWindowSize((short)width, (short)height);
     }

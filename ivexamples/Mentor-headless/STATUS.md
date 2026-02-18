@@ -255,7 +255,6 @@ The remaining 9 examples cannot be converted as they are intrinsically tied to s
 - ✅ **Pick point generation** - for pick/selection examples
 - ✅ **Event simulation** - keyboard/mouse for interactive examples
 - ✅ **Mock GUI toolkit** - generic abstractions for toolkit integration patterns
-- ✅ **Event simulation** - for keyboard/mouse events
 - ✅ **Manipulator control** - programmatic value setting for draggers/manipulators
 - ✅ **OpenGL integration** - callback nodes work in headless mode
 

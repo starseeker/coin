@@ -69,12 +69,16 @@ int main(int, char **argv)
         fprintf(stderr, "Error: Could not open dogDish.iv\n");
         fprintf(stderr, "Make sure data/dogDish.iv exists\n");
         root->unref();
+        delete myEditor;
+        delete myRenderArea;
         return 1;
     }
     SoSeparator *geomObject = SoDB::readAll(&myInput);
     if (geomObject == NULL) {
         fprintf(stderr, "Error: Could not read dogDish.iv\n");
         root->unref();
+        delete myEditor;
+        delete myRenderArea;
         return 1;
     }
     root->addChild(geomObject);
