@@ -25,6 +25,7 @@ rotatingSensorCallback(void *data, SoSensor *)
 {
     SoRotation *myRotation = (SoRotation *)data;
     SbRotation currentRotation = myRotation->rotation.getValue();
+    // Rotate by 2 degrees per callback
     currentRotation = SbRotation(SbVec3f(0, 0, 1), M_PI/90.0) * currentRotation;
     myRotation->rotation.setValue(currentRotation);
     rotationCount++;

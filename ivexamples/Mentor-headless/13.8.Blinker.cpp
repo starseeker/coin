@@ -46,7 +46,7 @@ int main(int argc, char **argv)
     // Add the fast-blinking part to a blinker node
     SoBlinker *fastBlinker = new SoBlinker;
     root->addChild(fastBlinker);
-    fastBlinker->speed = 2;  // blinks 2 times a second
+    fastBlinker->speed = 2;  // 2 Hz: 2 complete on/off cycles per second
     
     SoSeparator *fastSep = new SoSeparator;
     fastBlinker->addChild(fastSep);
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     // Add the slow-blinking part to another blinker node
     SoBlinker *slowBlinker = new SoBlinker;
     root->addChild(slowBlinker);
-    slowBlinker->speed = 0.5;  // 2 secs per cycle; 1 on, 1 off
+    slowBlinker->speed = 0.5;  // 0.5 Hz: 2 seconds per complete on/off cycle
     
     SoSeparator *slowSep = new SoSeparator;
     slowBlinker->addChild(slowSep);

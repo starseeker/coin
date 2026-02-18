@@ -189,7 +189,7 @@ See IMPLEMENTATION_NOTES.md for detailed implementation approaches.
 ## Files Generated
 
 Total: **~157 RGB images** across 40 examples
-Average: **~4 images per example**
+Average: **~3.9 images per example**
 Size: ~1.4MB per image (~220MB total)
 
 Format: SGI RGB (native Coin support)

@@ -84,9 +84,10 @@ int main(int argc, char **argv)
     myRotor->on = TRUE;
 
     // Render rotation sequence
+    const float ROTATION_INCREMENT = M_PI / 6.0;  // 30 degrees per frame
     for (int i = 0; i <= 12; i++) {
         // Manually advance the rotor rotation
-        float angle = i * M_PI / 6.0;  // 30 degrees per frame
+        float angle = i * ROTATION_INCREMENT;
         myRotor->rotation.setValue(SbVec3f(0, 0, 1), angle);
         
         // Process any pending updates
