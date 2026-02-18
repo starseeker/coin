@@ -26,8 +26,9 @@ cameraChangedCB(void *data, SoSensor *)
     SoCamera *camera = (SoCamera *)data;
     SbVec3f cameraPosition = camera->position.getValue();
     
+    callbackCount++;
     printf("Callback %d: Camera position: (%g, %g, %g)\n",
-           ++callbackCount,
+           callbackCount,
            cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 }
 
