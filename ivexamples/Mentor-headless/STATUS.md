@@ -4,9 +4,9 @@ This document summarizes the complete status of converting Inventor Mentor examp
 
 ## Overall Progress
 
-**Converted:** 22 examples → 57 reference images  
-**Percentage:** 33% of total examples (22/66)  
-**Status:** All straightforward static geometry examples complete
+**Converted:** 41 examples → 160 reference images (estimated)
+**Percentage:** 62% of total examples (41/66)  
+**Status:** All easy examples complete (static, textures, NURBS, sensors, engines)
 
 ## Completed Examples by Chapter
 
@@ -48,26 +48,26 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 06.2.Simple3DText | ✅ Done | 3 | 3D text with materials |
 | 06.3.Complex3DText | ✅ Done | 2 | Beveled 3D text with profiles |
 
-### ⚠️ Chapter 7: Textures (1/3 examples)
+### ✅ Chapter 7: Textures (3/3 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 07.1.BasicTexture | ✅ Done | 2 | Procedural texture on cube |
-| 07.2.TextureCoordinates | 📝 Ready | - | Explicit texture coords |
-| 07.3.TextureFunction | 📝 Ready | - | Texture coordinate functions |
+| 07.2.TextureCoordinates | ✅ Done | 2 | Explicit texture coords |
+| 07.3.TextureFunction | ✅ Done | 2 | Texture coordinate functions |
 
-### ⚠️ Chapter 8: Curves and Surfaces (0/4 examples)
+### ✅ Chapter 8: Curves and Surfaces (4/4 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 08.1.BSCurve | 📝 Ready | - | B-spline curve |
-| 08.2.UniCurve | 📝 Ready | - | Uniform B-spline |
-| 08.3.BezSurf | 📝 Ready | - | Bezier surface |
-| 08.4.TrimSurf | 📝 Ready | - | Trimmed NURBS surface |
+| 08.1.BSCurve | ✅ Done | 3 | B-spline curve |
+| 08.2.UniCurve | ✅ Done | 3 | Uniform B-spline |
+| 08.3.BezSurf | ✅ Done | 3 | Bezier surface |
+| 08.4.TrimSurf | ✅ Done | 3 | Trimmed NURBS surface |
 
-### ⚠️ Chapter 9: Applying Actions (3/5 examples)
+### ✅ Chapter 9: Applying Actions (4/5 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 09.1.Print | ✅ Done | 1 | Offscreen rendering demo |
-| 09.2.Texture | 📝 Ready | - | Render to texture |
+| 09.2.Texture | ✅ Done | 3 | Render to texture map |
 | 09.3.Search | ✅ Done | 2 | Search action usage |
 | 09.4.PickAction | ⚠️ TODO | - | Needs pick simulation |
 | 09.5.GenSph | ✅ Done | 1 | Callback action primitives |
@@ -89,25 +89,25 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 11.1.ReadFile | ✅ Done | 1 | Read .iv file |
 | 11.2.ReadString | ✅ Done | 1 | Parse from string buffer |
 
-### ⚠️ Chapter 12: Sensors (0/4 examples)
+### ✅ Chapter 12: Sensors (4/4 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 12.1.FieldSensor | 📝 Ready | - | Needs explicit time control |
-| 12.2.NodeSensor | 📝 Ready | - | Needs explicit time control |
-| 12.3.AlarmSensor | 📝 Ready | - | Needs explicit time control |
-| 12.4.TimerSensor | 📝 Ready | - | Needs explicit time control |
+| 12.1.FieldSensor | ✅ Done | 4 | Camera position change monitoring |
+| 12.2.NodeSensor | ✅ Done | 5 | Node modification monitoring |
+| 12.3.AlarmSensor | ✅ Done | 2 | Alarm trigger before/after |
+| 12.4.TimerSensor | ✅ Done | 9 | Timer-based rotation sequence |
 
-### ⚠️ Chapter 13: Engines (0/8 examples)
+### ✅ Chapter 13: Engines (8/8 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 13.1.GlobalFlds | 📝 Ready | - | Needs explicit time control |
-| 13.2.ElapsedTime | 📝 Ready | - | Needs explicit time control |
-| 13.3.TimeCounter | 📝 Ready | - | Needs explicit time control |
-| 13.4.Gate | 📝 Ready | - | Needs explicit time control |
-| 13.5.Boolean | 📝 Ready | - | Needs explicit time control |
-| 13.6.Calculator | 📝 Ready | - | Needs explicit time control |
-| 13.7.Rotor | 📝 Ready | - | Needs explicit time control |
-| 13.8.Blinker | 📝 Ready | - | Needs explicit time control |
+| 13.1.GlobalFlds | ✅ Done | 3 | Global field connection (realTime) |
+| 13.2.ElapsedTime | ✅ Done | 11 | Sliding animation sequence |
+| 13.3.TimeCounter | ✅ Done | 21 | Jumping animation sequence |
+| 13.4.Gate | ✅ Done | 10 | Gate enable/disable states |
+| 13.5.Boolean | ✅ Done | 9 | Boolean logic with time counter |
+| 13.6.Calculator | ✅ Done | 17 | Circular motion via calculator |
+| 13.7.Rotor | ✅ Done | 13 | Rotating windmill vanes |
+| 13.8.Blinker | ✅ Done | 17 | Fast and slow blinking |
 
 ### ⚠️ Chapter 14: Node Kits (0/3 examples)
 | Example | Status | Images | Notes |
@@ -137,16 +137,15 @@ All examples are Xt-specific GUI toolkit code that cannot be converted.
 ## Summary Statistics
 
 ### By Status
-- ✅ **Done:** 22 examples (33%)
-- 📝 **Ready:** 19 examples (29%) - straightforward with documented approach
-- ⚠️ **TODO:** 9 examples (14%) - need infrastructure
-- ❌ **Skip:** 16 examples (24%) - GUI toolkit specific
+- ✅ **Done:** 41 examples (62%)
+- ⚠️ **TODO:** 11 examples (17%) - need simulation infrastructure
+- ❌ **Skip:** 14 examples (21%) - GUI toolkit specific
 
 ### By Difficulty
-- **Easy (Done):** 22 examples → 57 images
-- **Easy (Remaining):** 19 examples - can be done with existing patterns
-- **Medium:** 9 examples - need simulation infrastructure
-- **Skip:** 16 examples - not convertible
+- **Easy (Done):** 41 examples → ~160 images
+- **Medium (Remaining):** 6 examples - viewer and pick simulation
+- **High (Remaining):** 5 examples - events and manipulators
+- **Skip:** 14 examples - not convertible
 
 ## Conversion Patterns Used
 
@@ -188,9 +187,9 @@ See IMPLEMENTATION_NOTES.md for detailed implementation approaches.
 
 ## Files Generated
 
-Total: **57 RGB images** across 22 examples
-Average: **2.6 images per example**
-Size: ~1.4MB per image (~80MB total)
+Total: **~160 RGB images** across 41 examples
+Average: **~3.9 images per example**
+Size: ~1.4MB per image (~224MB total)
 
 Format: SGI RGB (native Coin support)
 Can be converted to PNG/JPEG with ImageMagick if needed.
@@ -204,24 +203,37 @@ Can be converted to PNG/JPEG with ImageMagick if needed.
 ✅ **Complete:** Transform ordering
 ✅ **Complete:** File I/O and search actions
 ✅ **Complete:** Callback actions
+✅ **Complete:** Textures (all texture examples)
+✅ **Complete:** NURBS curves and surfaces (all NURBS examples)
+✅ **Complete:** Sensors (field, node, alarm, timer)
+✅ **Complete:** Engines (elapsed time, time counter, gate, boolean, calculator, rotor, blinker)
+✅ **Complete:** Offscreen rendering to texture
 
-⚠️ **Partial:** Textures (1/3)
-⚠️ **Missing:** NURBS curves and surfaces
-⚠️ **Missing:** Time-based animations
-⚠️ **Missing:** Interactive features (pick, events, manipulators)
+⚠️ **Remaining:** Interactive features (pick, events, manipulators, viewer simulation)
 
 ## Conclusion
 
-Successfully converted **22 examples** covering:
+Successfully converted **41 examples** covering:
 - Core scene graph features
 - Geometry and materials
 - Cameras and lighting
 - Text rendering
-- Basic actions
+- Textures and texture coordinates
+- NURBS curves and surfaces (B-splines, Bezier, trimmed surfaces)
+- Basic actions and offscreen rendering
+- Sensors (field monitoring, node monitoring, alarms, timers)
+- Engines (time-based animations, gates, boolean logic, calculators, rotors, blinkers)
 
-All straightforward static geometry examples are complete.
-Remaining work requires additional infrastructure for:
-- Time-based animations (~13 examples)
-- Interaction simulation (~9 examples)
+**All straightforward static and time-based examples are complete.**
 
-Framework is solid and extensible for future work.
+Remaining work requires simulation infrastructure for:
+- Viewer/camera manipulation (~2 examples - Medium complexity)
+- Pick/selection actions (~4 examples - Medium-High complexity)
+- Event handling (~1 example - High complexity)
+- Manipulator interaction (~4 examples - Very High complexity)
+
+See `COMPLEX_EXAMPLES_STRATEGY.md` for detailed implementation approaches.
+
+**Achievable target: 52/66 examples (79%)**
+
+Framework is solid and extensible for advanced examples if needed.
