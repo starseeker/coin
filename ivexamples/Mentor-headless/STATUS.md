@@ -4,9 +4,9 @@ This document summarizes the complete status of converting Inventor Mentor examp
 
 ## Overall Progress
 
-**Converted:** 22 examples → 57 reference images  
-**Percentage:** 33% of total examples (22/66)  
-**Status:** All straightforward static geometry examples complete
+**Converted:** 28 examples → 69 reference images  
+**Percentage:** 42% of total examples (28/66)  
+**Status:** All straightforward static geometry examples complete, textures and NURBS done
 
 ## Completed Examples by Chapter
 
@@ -48,20 +48,20 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 06.2.Simple3DText | ✅ Done | 3 | 3D text with materials |
 | 06.3.Complex3DText | ✅ Done | 2 | Beveled 3D text with profiles |
 
-### ⚠️ Chapter 7: Textures (1/3 examples)
+### ✅ Chapter 7: Textures (3/3 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 07.1.BasicTexture | ✅ Done | 2 | Procedural texture on cube |
-| 07.2.TextureCoordinates | 📝 Ready | - | Explicit texture coords |
-| 07.3.TextureFunction | 📝 Ready | - | Texture coordinate functions |
+| 07.2.TextureCoordinates | ✅ Done | 2 | Explicit texture coords |
+| 07.3.TextureFunction | ✅ Done | 2 | Texture coordinate functions |
 
-### ⚠️ Chapter 8: Curves and Surfaces (0/4 examples)
+### ✅ Chapter 8: Curves and Surfaces (4/4 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 08.1.BSCurve | 📝 Ready | - | B-spline curve |
-| 08.2.UniCurve | 📝 Ready | - | Uniform B-spline |
-| 08.3.BezSurf | 📝 Ready | - | Bezier surface |
-| 08.4.TrimSurf | 📝 Ready | - | Trimmed NURBS surface |
+| 08.1.BSCurve | ✅ Done | 3 | B-spline curve |
+| 08.2.UniCurve | ✅ Done | 3 | Uniform B-spline |
+| 08.3.BezSurf | ✅ Done | 3 | Bezier surface |
+| 08.4.TrimSurf | ✅ Done | 3 | Trimmed NURBS surface |
 
 ### ⚠️ Chapter 9: Applying Actions (3/5 examples)
 | Example | Status | Images | Notes |
@@ -137,14 +137,14 @@ All examples are Xt-specific GUI toolkit code that cannot be converted.
 ## Summary Statistics
 
 ### By Status
-- ✅ **Done:** 22 examples (33%)
-- 📝 **Ready:** 19 examples (29%) - straightforward with documented approach
+- ✅ **Done:** 28 examples (42%)
+- 📝 **Ready:** 13 examples (20%) - straightforward with documented approach
 - ⚠️ **TODO:** 9 examples (14%) - need infrastructure
 - ❌ **Skip:** 16 examples (24%) - GUI toolkit specific
 
 ### By Difficulty
-- **Easy (Done):** 22 examples → 57 images
-- **Easy (Remaining):** 19 examples - can be done with existing patterns
+- **Easy (Done):** 28 examples → 69 images
+- **Easy (Remaining):** 13 examples - can be done with existing patterns
 - **Medium:** 9 examples - need simulation infrastructure
 - **Skip:** 16 examples - not convertible
 
@@ -188,9 +188,9 @@ See IMPLEMENTATION_NOTES.md for detailed implementation approaches.
 
 ## Files Generated
 
-Total: **57 RGB images** across 22 examples
-Average: **2.6 images per example**
-Size: ~1.4MB per image (~80MB total)
+Total: **69 RGB images** across 28 examples
+Average: **2.5 images per example**
+Size: ~1.4MB per image (~97MB total)
 
 Format: SGI RGB (native Coin support)
 Can be converted to PNG/JPEG with ImageMagick if needed.
@@ -204,19 +204,21 @@ Can be converted to PNG/JPEG with ImageMagick if needed.
 ✅ **Complete:** Transform ordering
 ✅ **Complete:** File I/O and search actions
 ✅ **Complete:** Callback actions
+✅ **Complete:** Textures (all texture examples)
+✅ **Complete:** NURBS curves and surfaces (all NURBS examples)
 
-⚠️ **Partial:** Textures (1/3)
-⚠️ **Missing:** NURBS curves and surfaces
 ⚠️ **Missing:** Time-based animations
 ⚠️ **Missing:** Interactive features (pick, events, manipulators)
 
 ## Conclusion
 
-Successfully converted **22 examples** covering:
+Successfully converted **28 examples** covering:
 - Core scene graph features
 - Geometry and materials
 - Cameras and lighting
 - Text rendering
+- Textures and texture coordinates
+- NURBS curves and surfaces (B-splines, Bezier, trimmed surfaces)
 - Basic actions
 
 All straightforward static geometry examples are complete.
