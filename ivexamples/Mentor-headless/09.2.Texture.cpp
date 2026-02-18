@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 
     // Parse the embedded red cone scene
     SoInput in;
-    in.setBuffer(red_cone_iv, strlen(red_cone_iv));
+    in.setBuffer(red_cone_iv, sizeof(red_cone_iv) - 1);  // -1 to exclude null terminator
     SoSeparator *result = SoDB::readAll(&in);
     if (result == NULL) {
         fprintf(stderr, "Error: Could not parse scene\n");

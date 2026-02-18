@@ -142,9 +142,9 @@ void simulatePickAtObject(SoSeparator *root, SoPath *objectPath,
 
 // Selection callback simulation
 void simulateSelection(SoSeparator *root, SoSelection *selection) {
-    // Find all selectable nodes
+    // Find all selectable nodes (e.g., all cubes)
     SoSearchAction search;
-    search.setType(SoCube::getClassTypeId());
+    search.setType(SoCube::getClassTypeId());  // Note: May be getTypeId() in some Coin versions
     search.setInterest(SoSearchAction::ALL);
     search.apply(root);
     
@@ -165,13 +165,26 @@ void simulateSelection(SoSeparator *root, SoSelection *selection) {
 ### Pick Filtering Example
 
 ```cpp
+// Custom pick filter callback - only allows top-level objects
+static SoPath *
+topLevelPickFilter(void *, const SoPickedPoint *pick) {
+    if (pick == NULL) return NULL;
+    
+    SoPath *path = pick->getPath();
+    // Return path with only root and first child (top level)
+    if (path->getLength() > 2) {
+        path = path->copy(0, 2);  // Keep only first 2 nodes
+    }
+    return path;
+}
+
 // 10.6.PickFilterTopLevel - only pick top-level objects
 void simulatePickFiltering(SoSeparator *root) {
     // Set up pick filter callback
     SoSelection *selection = new SoSelection;
     selection->policy = SoSelection::SINGLE;
     
-    // Custom pick filter
+    // Attach custom pick filter
     selection->setPickFilterCallback(topLevelPickFilter, NULL);
     
     // Attempt to pick nested objects
