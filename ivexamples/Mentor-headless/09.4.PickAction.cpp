@@ -141,9 +141,12 @@ int main(int argc, char **argv)
     const char *baseFilename = (argc > 1) ? argv[1] : "09.4.PickAction";
     char filename[256];
 
+    int frameNum = 0;
+
     // Render initial scene
     snprintf(filename, sizeof(filename), "%s_initial.rgb", baseFilename);
     renderToFile(root, filename);
+    frameNum++;
 
     // Simulate picking each object
     // Get centers of the two star objects in world coordinates
@@ -179,6 +182,7 @@ int main(int argc, char **argv)
         
         snprintf(filename, sizeof(filename), "%s_pick_star1.rgb", baseFilename);
         renderToFile(root, filename);
+        frameNum++;
         
         star1Sep->removeChild(0);
     }
@@ -201,11 +205,12 @@ int main(int argc, char **argv)
         
         snprintf(filename, sizeof(filename), "%s_pick_star2.rgb", baseFilename);
         renderToFile(root, filename);
+        frameNum++;
         
         star2Sep->removeChild(0);
     }
 
-    printf("\nRendered %d frames demonstrating pick action\n", 3);
+    printf("\nRendered %d frames demonstrating pick action\n", frameNum);
 
     starObject->unref();
     root->unref();

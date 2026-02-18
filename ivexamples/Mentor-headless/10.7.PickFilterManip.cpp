@@ -114,10 +114,15 @@ void deselCB(void *, SoPath *path)
     manipPath->append(tailNodeIndex - 1);
     manipPath->ref();
      
-    // Replace the manipulator with a transform 
-    SoTransformManip *manip = (SoTransformManip *) manipPath->getTail();
-    manip->replaceManip(manipPath, new SoTransform);
-    manip->unref();
+    // Replace the manipulator with a transform
+    SoNode *node = manipPath->getTail();
+    if (node && node->isOfType(SoTransformManip::getClassTypeId())) {
+        SoTransformManip *manip = (SoTransformManip *) node;
+        manip->replaceManip(manipPath, new SoTransform);
+        manip->unref();
+    } else {
+        printf("Warning: Expected manipulator but found different node type\n");
+    }
 
     manipPath->unref();
 }
