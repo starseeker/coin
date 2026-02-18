@@ -15,13 +15,14 @@ A comprehensive header providing generic implementations of the minimal interfac
 **Components:**
 - **MockRenderArea** (156 lines) - Window, scene graph, event handling, rendering
 - **MockMaterialEditor** (181 lines) - Property editor with callbacks and attachment
+- **MockDirectionalLightEditor** (130 lines) - Light editor with callbacks and attachment (NEW)
 - **MockExaminerViewer** (36 lines) - Minimal viewer wrapper
 - **Event Translation Helpers** (80 lines) - Native event → SoEvent pattern
 - **Mock X11 Types** (40 lines) - Demonstrate native event structures
 
-**Total:** ~500 lines of production-quality code with comprehensive documentation
+**Total:** ~630 lines of production-quality code with comprehensive documentation
 
-### 2. Four Converted Examples
+### 2. Five Converted Examples
 
 Previously marked as "Xt-specific" but now shown to be toolkit-agnostic:
 
@@ -29,10 +30,11 @@ Previously marked as "Xt-specific" but now shown to be toolkit-agnostic:
 |---------|-------|--------|-------------|
 | 10.2.setEventCB | 330 | 4 | Event callbacks with native translation |
 | 10.8.PickFilterNodeKit | 290 | 7 | Pick filtering + material editor |
+| 14.2.Editors | 240 | 7 | Material + light editors with nodekits (NEW) |
 | 16.2.Callback | 160 | 4 | Material editor callbacks |
 | 16.3.AttachEditor | 170 | 5 | Material editor attachment |
 
-**Total:** ~950 lines of example code demonstrating toolkit-agnostic patterns
+**Total:** ~1,190 lines of example code demonstrating toolkit-agnostic patterns
 
 ### 3. Comprehensive Documentation
 
@@ -40,14 +42,15 @@ Previously marked as "Xt-specific" but now shown to be toolkit-agnostic:
 |----------|-------|---------|
 | MOCK_TOOLKIT_GUIDE.md | 12,969 | Complete guide to patterns and architecture |
 | IMPLEMENTATION_SUMMARY.md | 8,827 | Implementation details and statistics |
-| Updated README.md | +353 | Overview and framework section |
-| Updated STATUS.md | +200 | Statistics and mock toolkit section |
+| REMAINING_ANALYSIS.md | 9,841 | Analysis of all skipped examples (NEW) |
+| Updated README.md | +400 | Overview and framework section |
+| Updated STATUS.md | +250 | Statistics and mock toolkit section |
 
-**Total:** ~22K of documentation
+**Total:** ~32K of documentation
 
 ### 4. Build System Updates
 
-- Updated CMakeLists.txt with 4 new build targets
+- Updated CMakeLists.txt with 5 new build targets
 - All examples follow existing build patterns
 - Compatible with existing infrastructure
 
@@ -118,19 +121,27 @@ toolkit->onMouseEvent([&](NativeEvent* evt) {
 
 ## Statistics
 
-### Before This Work
+### Before Initial Work
 - **Converted:** 53/66 examples (80%)
 - **Skipped:** 13/66 (20%) as "Xt-specific"
 - **Chapter 10:** 4/8 examples
+- **Chapter 14:** 2/3 examples
 - **Chapter 16:** 0/5 examples
 
-### After This Work
+### After Initial Mock Toolkit Work
 - **Converted:** 57/66 examples (86%)
 - **Truly toolkit-specific:** 9/66 (14%)
 - **Chapter 10:** 6/8 examples (+2)
 - **Chapter 16:** 2/5 examples (+2)
 
-### What's Actually Toolkit-Specific (9 examples)
+### After Complete Analysis (FINAL)
+- **Converted:** 58/66 examples (88%)
+- **Truly toolkit-specific:** 8/66 (12%)
+- **Chapter 10:** 6/8 examples
+- **Chapter 14:** 3/3 examples (+1) ✅ COMPLETE
+- **Chapter 16:** 2/5 examples
+
+### What's Actually Toolkit-Specific (8 examples)
 
 Only these genuinely test toolkit integration, not Coin features:
 1. **10.3and4.MotifList** - Motif list widget integration
@@ -139,7 +150,7 @@ Only these genuinely test toolkit integration, not Coin features:
 4. **16.5.Examiner** - Already covered by viewer simulation in 02.4
 5. **17.1.ColorIndex** - Xt color management with XVisualInfo
 6. **17.3.GLFloor** - GLX context creation details
-7-9. Three others testing specific toolkit widget features
+7-8. Two others testing specific toolkit widget features
 
 These are correctly left as "skip" because they test toolkit code, not Coin code.
 
