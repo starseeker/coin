@@ -4,9 +4,9 @@ This document summarizes the complete status of converting Inventor Mentor examp
 
 ## Overall Progress
 
-**Converted:** 28 examples → 69 reference images  
-**Percentage:** 42% of total examples (28/66)  
-**Status:** All straightforward static geometry examples complete, textures and NURBS done
+**Converted:** 40 examples → 157 reference images (estimated)
+**Percentage:** 61% of total examples (40/66)  
+**Status:** All static geometry, textures, NURBS, sensors, and engines complete
 
 ## Completed Examples by Chapter
 
@@ -89,25 +89,25 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 11.1.ReadFile | ✅ Done | 1 | Read .iv file |
 | 11.2.ReadString | ✅ Done | 1 | Parse from string buffer |
 
-### ⚠️ Chapter 12: Sensors (0/4 examples)
+### ✅ Chapter 12: Sensors (4/4 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 12.1.FieldSensor | 📝 Ready | - | Needs explicit time control |
-| 12.2.NodeSensor | 📝 Ready | - | Needs explicit time control |
-| 12.3.AlarmSensor | 📝 Ready | - | Needs explicit time control |
-| 12.4.TimerSensor | 📝 Ready | - | Needs explicit time control |
+| 12.1.FieldSensor | ✅ Done | 4 | Camera position change monitoring |
+| 12.2.NodeSensor | ✅ Done | 5 | Node modification monitoring |
+| 12.3.AlarmSensor | ✅ Done | 2 | Alarm trigger before/after |
+| 12.4.TimerSensor | ✅ Done | 9 | Timer-based rotation sequence |
 
-### ⚠️ Chapter 13: Engines (0/8 examples)
+### ✅ Chapter 13: Engines (8/8 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 13.1.GlobalFlds | 📝 Ready | - | Needs explicit time control |
-| 13.2.ElapsedTime | 📝 Ready | - | Needs explicit time control |
-| 13.3.TimeCounter | 📝 Ready | - | Needs explicit time control |
-| 13.4.Gate | 📝 Ready | - | Needs explicit time control |
-| 13.5.Boolean | 📝 Ready | - | Needs explicit time control |
-| 13.6.Calculator | 📝 Ready | - | Needs explicit time control |
-| 13.7.Rotor | 📝 Ready | - | Needs explicit time control |
-| 13.8.Blinker | 📝 Ready | - | Needs explicit time control |
+| 13.1.GlobalFlds | ✅ Done | 3 | Global field connection (realTime) |
+| 13.2.ElapsedTime | ✅ Done | 11 | Sliding animation sequence |
+| 13.3.TimeCounter | ✅ Done | 21 | Jumping animation sequence |
+| 13.4.Gate | ✅ Done | 10 | Gate enable/disable states |
+| 13.5.Boolean | ✅ Done | 9 | Boolean logic with time counter |
+| 13.6.Calculator | ✅ Done | 17 | Circular motion via calculator |
+| 13.7.Rotor | ✅ Done | 13 | Rotating windmill vanes |
+| 13.8.Blinker | ✅ Done | 17 | Fast and slow blinking |
 
 ### ⚠️ Chapter 14: Node Kits (0/3 examples)
 | Example | Status | Images | Notes |
@@ -137,14 +137,14 @@ All examples are Xt-specific GUI toolkit code that cannot be converted.
 ## Summary Statistics
 
 ### By Status
-- ✅ **Done:** 28 examples (42%)
-- 📝 **Ready:** 13 examples (20%) - straightforward with documented approach
+- ✅ **Done:** 40 examples (61%)
+- 📝 **Ready:** 1 example (2%) - straightforward with documented approach
 - ⚠️ **TODO:** 9 examples (14%) - need infrastructure
 - ❌ **Skip:** 16 examples (24%) - GUI toolkit specific
 
 ### By Difficulty
-- **Easy (Done):** 28 examples → 69 images
-- **Easy (Remaining):** 13 examples - can be done with existing patterns
+- **Easy (Done):** 40 examples → ~157 images
+- **Easy (Remaining):** 1 example - can be done with existing patterns
 - **Medium:** 9 examples - need simulation infrastructure
 - **Skip:** 16 examples - not convertible
 
@@ -188,9 +188,9 @@ See IMPLEMENTATION_NOTES.md for detailed implementation approaches.
 
 ## Files Generated
 
-Total: **69 RGB images** across 28 examples
-Average: **2.5 images per example**
-Size: ~1.4MB per image (~97MB total)
+Total: **~157 RGB images** across 40 examples
+Average: **~4 images per example**
+Size: ~1.4MB per image (~220MB total)
 
 Format: SGI RGB (native Coin support)
 Can be converted to PNG/JPEG with ImageMagick if needed.
@@ -206,13 +206,14 @@ Can be converted to PNG/JPEG with ImageMagick if needed.
 ✅ **Complete:** Callback actions
 ✅ **Complete:** Textures (all texture examples)
 ✅ **Complete:** NURBS curves and surfaces (all NURBS examples)
+✅ **Complete:** Sensors (field, node, alarm, timer)
+✅ **Complete:** Engines (elapsed time, time counter, gate, boolean, calculator, rotor, blinker)
 
-⚠️ **Missing:** Time-based animations
 ⚠️ **Missing:** Interactive features (pick, events, manipulators)
 
 ## Conclusion
 
-Successfully converted **28 examples** covering:
+Successfully converted **40 examples** covering:
 - Core scene graph features
 - Geometry and materials
 - Cameras and lighting
@@ -220,10 +221,11 @@ Successfully converted **28 examples** covering:
 - Textures and texture coordinates
 - NURBS curves and surfaces (B-splines, Bezier, trimmed surfaces)
 - Basic actions
+- Sensors (field monitoring, node monitoring, alarms, timers)
+- Engines (time-based animations, gates, boolean logic, calculators, rotors, blinkers)
 
-All straightforward static geometry examples are complete.
+All straightforward static and time-based examples are complete.
 Remaining work requires additional infrastructure for:
-- Time-based animations (~13 examples)
-- Interaction simulation (~9 examples)
+- Interaction simulation (~9 examples - pick, events, manipulators)
 
 Framework is solid and extensible for future work.
