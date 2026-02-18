@@ -2,7 +2,15 @@
  * Headless version of Inventor Mentor example 10.5
  * 
  * Original: SelectionCB - demonstrates selection callbacks with mouse interaction
- * Headless: Simulates selection/deselection and shows color changes via callbacks
+ * Headless: Demonstrates selection callbacks being triggered
+ * 
+ * This example shows two approaches to selection (both valid):
+ * 1. Programmatic selection using select()/deselect() - current implementation
+ * 2. Event-based selection via mouse picks - could be added using simulateMousePress()
+ * 
+ * The programmatic approach is simpler and demonstrates the callback mechanism clearly.
+ * For a more realistic simulation, mouse pick events could trigger selection automatically.
+ * See 09.4.PickAction for pick event simulation or 15.3.AttachManip for mouse event patterns.
  */
 
 #include "headless_utils.h"
@@ -163,6 +171,10 @@ int main(int argc, char **argv)
     }
 
     printf("\nRendered %d frames demonstrating selection callbacks\n", frameNum);
+    printf("\nNote: This example uses programmatic selection (select/deselect calls).\n");
+    printf("In interactive mode, mouse clicks would trigger selection via pick events.\n");
+    printf("For event-based selection pattern, see 15.3.AttachManip which demonstrates\n");
+    printf("using simulateMousePress() to generate pick events.\n");
 
     if (spherePath) spherePath->unref();
     if (textPath) textPath->unref();

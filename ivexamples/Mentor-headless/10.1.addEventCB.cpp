@@ -3,6 +3,11 @@
  * 
  * Original: addEventCB - demonstrates keyboard event callbacks for interactive scaling
  * Headless: Simulates keyboard events to scale objects up and down
+ * 
+ * This example demonstrates the event simulation pattern developed for manipulators:
+ * - Uses simulateKeyPress/Release from headless_utils.h
+ * - Proper event callback registration and handling
+ * - Events trigger callbacks just like in interactive mode
  */
 
 #include "headless_utils.h"
@@ -29,7 +34,75 @@
 // Global transforms for each object (from original example)
 SoTransform *cubeTransform, *sphereTransform, *coneTransform, *cylTransform;
 
-// Scale each object in the selection list
+// Event callback function - called when UP_ARROW or DOWN_ARROW is pressed
+// This matches the pattern from the original example
+void myKeyPressCB(void *userData, SoEventCallback *eventCB)
+{
+    SoSelection *selection = (SoSelection *) userData;
+    const SoEvent *event = eventCB->getEvent();
+
+    // Check for the Up and Down arrow keys being pressed
+    if (SO_KEY_PRESS_EVENT(event, UP_ARROW)) {
+        printf("UP_ARROW detected - scaling up\n");
+        // Scale up selected objects
+        for (int i = 0; i < selection->getNumSelected(); i++) {
+            SoPath *selectedPath = selection->getPath(i);
+            SoTransform *xform = NULL;
+
+            // Look for the shape node to identify which transform to modify
+            for (int j = 0; j < selectedPath->getLength() && (xform == NULL); j++) {
+                SoNode *n = selectedPath->getNodeFromTail(j);
+                if (n->isOfType(SoCube::getClassTypeId())) {
+                    xform = cubeTransform;
+                } else if (n->isOfType(SoCone::getClassTypeId())) {
+                    xform = coneTransform;
+                } else if (n->isOfType(SoSphere::getClassTypeId())) {
+                    xform = sphereTransform;
+                } else if (n->isOfType(SoCylinder::getClassTypeId())) {
+                    xform = cylTransform;
+                }
+            }
+
+            if (xform) {
+                SbVec3f currentScale = xform->scaleFactor.getValue();
+                currentScale *= 1.1f;
+                xform->scaleFactor.setValue(currentScale);
+            }
+        }
+        eventCB->setHandled();
+    } else if (SO_KEY_PRESS_EVENT(event, DOWN_ARROW)) {
+        printf("DOWN_ARROW detected - scaling down\n");
+        // Scale down selected objects
+        for (int i = 0; i < selection->getNumSelected(); i++) {
+            SoPath *selectedPath = selection->getPath(i);
+            SoTransform *xform = NULL;
+
+            // Look for the shape node to identify which transform to modify
+            for (int j = 0; j < selectedPath->getLength() && (xform == NULL); j++) {
+                SoNode *n = selectedPath->getNodeFromTail(j);
+                if (n->isOfType(SoCube::getClassTypeId())) {
+                    xform = cubeTransform;
+                } else if (n->isOfType(SoCone::getClassTypeId())) {
+                    xform = coneTransform;
+                } else if (n->isOfType(SoSphere::getClassTypeId())) {
+                    xform = sphereTransform;
+                } else if (n->isOfType(SoCylinder::getClassTypeId())) {
+                    xform = cylTransform;
+                }
+            }
+
+            if (xform) {
+                SbVec3f currentScale = xform->scaleFactor.getValue();
+                currentScale *= (1.0f / 1.1f);
+                xform->scaleFactor.setValue(currentScale);
+            }
+        }
+        eventCB->setHandled();
+    }
+}
+
+// Legacy function - kept for reference but no longer used in headless mode
+// In the new pattern, we use actual event simulation instead of direct calls
 void scaleSelection(SoSelection *selection, float scaleFactor)
 {
     for (int i = 0; i < selection->getNumSelected(); i++) {
@@ -69,31 +142,6 @@ void scaleSelection(SoSelection *selection, float scaleFactor)
     }
 }
 
-// Simulate a keyboard event
-void simulateKeyEvent(SoNode *root, SoSelection *selection, 
-                      SoKeyboardEvent::Key key, const SbViewportRegion &viewport)
-{
-    // Create keyboard event
-    SoKeyboardEvent keyEvent;
-    keyEvent.setKey(key);
-    keyEvent.setState(SoButtonEvent::DOWN);
-    keyEvent.setTime(SbTime::getTimeOfDay());
-
-    // Create and apply event action
-    SoHandleEventAction eventAction(viewport);
-    eventAction.setEvent(&keyEvent);
-    eventAction.apply(root);
-
-    // Process any sensor callbacks triggered by event
-    SoDB::getSensorManager()->processTimerQueue();
-    SoDB::getSensorManager()->processDelayQueue(TRUE);
-
-    // Simulate key release
-    keyEvent.setState(SoButtonEvent::UP);
-    eventAction.setEvent(&keyEvent);
-    eventAction.apply(root);
-}
-
 int main(int argc, char **argv)
 {
     initCoinHeadless();
@@ -108,9 +156,11 @@ int main(int argc, char **argv)
     selectionRoot->addChild(myCamera);
     selectionRoot->addChild(new SoDirectionalLight);
 
-    // Event callback node will be added but won't be used interactively
-    // since we're simulating the events directly
+    // Event callback node - registers callback for keyboard events
+    // This demonstrates the pattern: event callback receives events and processes them
     SoEventCallback *myEventCB = new SoEventCallback;
+    myEventCB->addEventCallback(SoKeyboardEvent::getClassTypeId(),
+                                 myKeyPressCB, selectionRoot);
     selectionRoot->addChild(myEventCB);
 
     // Add geometry - a red cube
@@ -203,9 +253,20 @@ int main(int argc, char **argv)
     renderToFile(selectionRoot, filename);
 
     // Simulate UP ARROW key presses (scale up)
+    // Using the new event simulation pattern from manipulator work
     printf("\n=== Simulating UP ARROW key presses (scale up) ===\n");
+    printf("This demonstrates event simulation triggering callbacks\n");
     for (int i = 0; i < 3; i++) {
-        scaleSelection(selectionRoot, 1.1f);
+        // Simulate key press event - this will trigger myKeyPressCB callback
+        simulateKeyPress(selectionRoot, viewport, SoKeyboardEvent::UP_ARROW);
+        
+        // Process sensor queues to ensure callbacks complete
+        SoDB::getSensorManager()->processTimerQueue();
+        SoDB::getSensorManager()->processDelayQueue(TRUE);
+        
+        // Simulate key release
+        simulateKeyRelease(selectionRoot, viewport, SoKeyboardEvent::UP_ARROW);
+        
         snprintf(filename, sizeof(filename), "%s_frame%02d_scaleup_%d.rgb", baseFilename, frameNum++, i+1);
         renderToFile(selectionRoot, filename);
     }
@@ -213,13 +274,25 @@ int main(int argc, char **argv)
     // Simulate DOWN ARROW key presses (scale down)
     printf("\n=== Simulating DOWN ARROW key presses (scale down) ===\n");
     for (int i = 0; i < 5; i++) {
-        scaleSelection(selectionRoot, 1.0f/1.1f);
+        // Simulate key press event - this will trigger myKeyPressCB callback
+        simulateKeyPress(selectionRoot, viewport, SoKeyboardEvent::DOWN_ARROW);
+        
+        // Process sensor queues to ensure callbacks complete
+        SoDB::getSensorManager()->processTimerQueue();
+        SoDB::getSensorManager()->processDelayQueue(TRUE);
+        
+        // Simulate key release
+        simulateKeyRelease(selectionRoot, viewport, SoKeyboardEvent::DOWN_ARROW);
+        
         snprintf(filename, sizeof(filename), "%s_frame%02d_scaledown_%d.rgb", baseFilename, frameNum++, i+1);
         renderToFile(selectionRoot, filename);
     }
 
     printf("\nRendered %d frames demonstrating event callbacks\n", frameNum);
-    printf("Simulated keyboard events to scale selected objects\n");
+    printf("Events were simulated using the new manipulator pattern:\n");
+    printf("  - simulateKeyPress/Release from headless_utils.h\n");
+    printf("  - Events trigger registered callbacks (myKeyPressCB)\n");
+    printf("  - Callbacks scale selected objects based on key\n");
 
     if (cubePath) cubePath->unref();
     if (spherePath) spherePath->unref();
