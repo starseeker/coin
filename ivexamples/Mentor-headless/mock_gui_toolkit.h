@@ -36,7 +36,6 @@
 #include <cstdlib>
 #include <vector>
 #include <functional>
-#include <functional>
 
 //=============================================================================
 // Mock Render Area
