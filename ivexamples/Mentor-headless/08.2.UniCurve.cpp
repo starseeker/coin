@@ -35,7 +35,7 @@ const float pts[13][3] = {
    { 0.0,  6.0,  0.0}};
 
 // The knot vector
-float knots[17] = {
+const float knots[17] = {
    0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
 // Create the nodes needed for the B-Spline curve

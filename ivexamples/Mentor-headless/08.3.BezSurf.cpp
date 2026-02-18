@@ -36,7 +36,7 @@ const float pts[16][3] = {
    { 4.5, -2.0, -6.0}};
 
 // The knot vector
-float knots[8] = {
+const float knots[8] = {
    0, 0, 0, 0, 1, 1, 1, 1};
 
 // Create the nodes needed for the Bezier surface

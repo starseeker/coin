@@ -20,8 +20,8 @@
 #include <cmath>
 #include <cstdio>
 
-// The array of trim coordinates
-const float tpts[12][2] = {
+// The array of trim coordinates (only 10 defined, matches original)
+const float tpts[10][2] = {
    {0.0, 0.0},
    {1.0, 0.0},
    {1.0, 1.0},
@@ -53,12 +53,12 @@ const float pts[16][3] = {
    { 4.5, -2.0, -6.0}};
 
 // The 3 knot vectors for the 3 trim curves
-float tknots1[7] = {0, 0, 1, 2, 3, 4, 4};
-float tknots2[6] = {0, 0, 1, 2, 3, 3};
-float tknots3[8] = {0, 0, 0, 0, 1, 1, 1, 1};
+const float tknots1[7] = {0, 0, 1, 2, 3, 4, 4};
+const float tknots2[6] = {0, 0, 1, 2, 3, 3};
+const float tknots3[8] = {0, 0, 0, 0, 1, 1, 1, 1};
 
 // The Bezier knot vector for the surface
-float knots[8] = {0, 0, 0, 0, 1, 1, 1, 1};
+const float knots[8] = {0, 0, 0, 0, 1, 1, 1, 1};
 
 // Create the nodes needed for the Bezier patch and its trim curves
 SoSeparator *makeSurface()
@@ -86,7 +86,7 @@ SoSeparator *makeSurface()
     SoNurbsProfile *nTrim3 = new SoNurbsProfile;
     int32_t trimInds[5];
 
-    trimPts->point.setValues(0, 12, tpts);
+    trimPts->point.setValues(0, 10, tpts);
     trimInds[0] = 0;
     trimInds[1] = 1;
     trimInds[2] = 2;

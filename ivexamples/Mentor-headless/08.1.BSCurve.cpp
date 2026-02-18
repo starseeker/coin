@@ -29,7 +29,7 @@ const float pts[7][3] = {
    {-4.0, -6.0,  6.0}};
 
 // The knot vector
-float knots[10] = {1, 2, 3, 4, 5, 5, 6, 7, 8, 9};
+const float knots[10] = {1, 2, 3, 4, 5, 5, 6, 7, 8, 9};
 
 // Create the nodes needed for the B-Spline curve
 SoSeparator *makeCurve()
