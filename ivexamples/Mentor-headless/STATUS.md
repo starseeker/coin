@@ -4,19 +4,19 @@ This document summarizes the complete status of converting Inventor Mentor examp
 
 ## Overall Progress
 
-**Converted:** 41 examples → 160 reference images (estimated)
-**Percentage:** 62% of total examples (41/66)  
-**Status:** All easy examples complete (static, textures, NURBS, sensors, engines)
+**Converted:** 48 examples → 200+ reference images (estimated)
+**Percentage:** 73% of total examples (48/66)  
+**Status:** All easy examples complete, complex viewer/pick/event examples complete
 
 ## Completed Examples by Chapter
 
-### ✅ Chapter 2: Introduction (2/4 examples)
+### ✅ Chapter 2: Introduction (4/4 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 02.1.HelloCone | ✅ Done | 1 | Simple cone rendering |
 | 02.2.EngineSpin | ✅ Done | 8 | Animated rotation sequence |
-| 02.3.Trackball | ⚠️ TODO | - | Needs trackball simulation |
-| 02.4.Examiner | ⚠️ TODO | - | Needs viewer simulation |
+| 02.3.Trackball | ✅ Done | 16 | Orbital camera movement simulation |
+| 02.4.Examiner | ✅ Done | 13 | Camera tumble/dolly operations |
 
 ### ✅ Chapter 3: Scene Graphs (3/3 examples)
 | Example | Status | Images | Notes |
@@ -63,24 +63,24 @@ This document summarizes the complete status of converting Inventor Mentor examp
 | 08.3.BezSurf | ✅ Done | 3 | Bezier surface |
 | 08.4.TrimSurf | ✅ Done | 3 | Trimmed NURBS surface |
 
-### ✅ Chapter 9: Applying Actions (4/5 examples)
+### ✅ Chapter 9: Applying Actions (5/5 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
 | 09.1.Print | ✅ Done | 1 | Offscreen rendering demo |
 | 09.2.Texture | ✅ Done | 3 | Render to texture map |
 | 09.3.Search | ✅ Done | 2 | Search action usage |
-| 09.4.PickAction | ⚠️ TODO | - | Needs pick simulation |
+| 09.4.PickAction | ✅ Done | 3 | Pick action simulation with objects |
 | 09.5.GenSph | ✅ Done | 1 | Callback action primitives |
 
-### ⚠️ Chapter 10: Events and Selection (0/8 examples)
+### ✅ Chapter 10: Events and Selection (4/8 examples)
 | Example | Status | Images | Notes |
 |---------|--------|--------|-------|
-| 10.1.addEventCB | ⚠️ TODO | - | Needs event simulation |
+| 10.1.addEventCB | ✅ Done | 9 | Keyboard event simulation for scaling |
 | 10.2.setEventCB | ❌ Skip | - | Xt-specific |
 | 10.3and4.MotifList | ❌ Skip | - | Motif widget |
-| 10.5.SelectionCB | ⚠️ TODO | - | Needs selection simulation |
-| 10.6.PickFilterTopLevel | ⚠️ TODO | - | Needs pick simulation |
-| 10.7.PickFilterManip | ⚠️ TODO | - | Needs pick simulation |
+| 10.5.SelectionCB | ✅ Done | 5 | Selection callbacks with color changes |
+| 10.6.PickFilterTopLevel | ✅ Done | 4 | Pick filter for top-level selection |
+| 10.7.PickFilterManip | ✅ Done | 3 | Pick filter through manipulators |
 | 10.8.PickFilterNodeKit | ❌ Skip | - | Xt-dependent |
 
 ### ✅ Chapter 11: File I/O (2/2 examples)
@@ -137,14 +137,14 @@ All examples are Xt-specific GUI toolkit code that cannot be converted.
 ## Summary Statistics
 
 ### By Status
-- ✅ **Done:** 41 examples (62%)
-- ⚠️ **TODO:** 11 examples (17%) - need simulation infrastructure
+- ✅ **Done:** 48 examples (73%)
+- ⚠️ **TODO:** 4 examples (6%) - manipulator examples (low priority)
 - ❌ **Skip:** 14 examples (21%) - GUI toolkit specific
 
 ### By Difficulty
-- **Easy (Done):** 41 examples → ~160 images
-- **Medium (Remaining):** 6 examples - viewer and pick simulation
-- **High (Remaining):** 5 examples - events and manipulators
+- **Easy (Done):** 41 examples → ~160 images (static, sensors, engines)
+- **Medium (Done):** 7 examples → ~50 images (viewer simulation, pick simulation, events)
+- **High (Remaining):** 4 examples - manipulators (complex, low priority)
 - **Skip:** 14 examples - not convertible
 
 ## Conversion Patterns Used
@@ -154,42 +154,45 @@ Simple scenes with geometry, materials, cameras, lights
 - Just add camera/light and render
 - Multiple viewpoints if interesting
 
-### Pattern 2: Time-Based Animation (0 examples - READY)
+### Pattern 2: Time-Based Animation (13 examples - COMPLETE)
 Sensors, engines, time-dependent behavior
 - Set time values explicitly
 - Process sensor queue
 - Render frames at different times
 
-### Pattern 3: Interaction Simulation (0 examples - TODO)
-Pick actions, events, manipulators
+### Pattern 3: Interaction Simulation (7 examples - COMPLETE)
+Pick actions, events, camera control
 - Simulate mouse/keyboard events
 - Programmatic pick actions
-- Direct value setting for manipulators
+- Camera path generation
+- Selection callback simulation
 
-## Next Steps
+## Next Steps (Optional - Low Priority)
 
-### Recommended Order:
-1. **NURBS examples** (Ch 8) - 4 examples, static geometry pattern
-2. **Texture examples** (Ch 7) - 2 examples, static geometry pattern
-3. **Sensors/Engines** (Ch 12-13) - 13 examples, time-based pattern
-4. **Viewer simulation** (Ch 2) - 2 examples, camera paths
-5. **Pick simulation** (Ch 9-10) - 4 examples, pick action
-6. **Manipulators** (Ch 15) - 4 examples, complex simulation
+### Remaining Examples:
+1. **Manipulator examples** (Ch 15) - 4 examples
+   - 15.1.ConeRadius
+   - 15.2.SliderBox
+   - 15.3.AttachManip
+   - 15.4.Customize
+   
+These require complex manipulator simulation which provides limited value for headless testing.
+The simplified approach (demonstrated in 10.7) may be sufficient.
 
-### Infrastructure Needed:
-- **Time control utilities** - for sensors/engines
-- **Camera path generation** - for viewer examples
-- **Pick point generation** - for pick/selection examples
-- **Event simulation** - for keyboard/mouse events
-- **Manipulator helpers** - for dragger/manipulator examples
+### Infrastructure Implemented:
+- ✅ **Time control utilities** - for sensors/engines
+- ✅ **Camera path generation** - for viewer examples
+- ✅ **Pick point generation** - for pick/selection examples
+- ✅ **Event simulation** - for keyboard/mouse events
+- ⚠️ **Manipulator helpers** - simplified approach for dragger/manipulator examples
 
-See IMPLEMENTATION_NOTES.md for detailed implementation approaches.
+See IMPLEMENTATION_NOTES.md and COMPLEX_EXAMPLES_STRATEGY.md for implementation details.
 
 ## Files Generated
 
-Total: **~160 RGB images** across 41 examples
-Average: **~3.9 images per example**
-Size: ~1.4MB per image (~224MB total)
+Total: **~210 RGB images** across 48 examples
+Average: **~4.4 images per example**
+Size: ~1.4MB per image (~295MB total)
 
 Format: SGI RGB (native Coin support)
 Can be converted to PNG/JPEG with ImageMagick if needed.
@@ -208,12 +211,16 @@ Can be converted to PNG/JPEG with ImageMagick if needed.
 ✅ **Complete:** Sensors (field, node, alarm, timer)
 ✅ **Complete:** Engines (elapsed time, time counter, gate, boolean, calculator, rotor, blinker)
 ✅ **Complete:** Offscreen rendering to texture
+✅ **Complete:** Viewer simulation (trackball, examiner camera control)
+✅ **Complete:** Pick actions and selection callbacks
+✅ **Complete:** Pick filtering (top-level, manipulator pass-through)
+✅ **Complete:** Event simulation (keyboard events for scaling)
 
-⚠️ **Remaining:** Interactive features (pick, events, manipulators, viewer simulation)
+⚠️ **Remaining (Optional):** Full manipulator interaction examples (4 examples)
 
 ## Conclusion
 
-Successfully converted **41 examples** covering:
+Successfully converted **48 examples** (73%) covering:
 - Core scene graph features
 - Geometry and materials
 - Cameras and lighting
@@ -223,17 +230,20 @@ Successfully converted **41 examples** covering:
 - Basic actions and offscreen rendering
 - Sensors (field monitoring, node monitoring, alarms, timers)
 - Engines (time-based animations, gates, boolean logic, calculators, rotors, blinkers)
+- **NEW:** Viewer simulation (camera control, trackball, examiner)
+- **NEW:** Pick actions with simulated screen coordinates
+- **NEW:** Selection callbacks with visual feedback
+- **NEW:** Pick filtering for top-level and manipulator selection
+- **NEW:** Event simulation for keyboard-driven interactions
 
-**All straightforward static and time-based examples are complete.**
+**All straightforward static, time-based, and interaction-simulation examples are complete.**
 
-Remaining work requires simulation infrastructure for:
-- Viewer/camera manipulation (~2 examples - Medium complexity)
-- Pick/selection actions (~4 examples - Medium-High complexity)
-- Event handling (~1 example - High complexity)
-- Manipulator interaction (~4 examples - Very High complexity)
+Remaining work requires full interactive manipulator simulation:
+- Manipulator interaction (~4 examples - Very High complexity, low value)
 
-See `COMPLEX_EXAMPLES_STRATEGY.md` for detailed implementation approaches.
+See `COMPLEX_EXAMPLES_STRATEGY.md` for detailed implementation approaches for remaining examples.
 
-**Achievable target: 52/66 examples (79%)**
+**Current achievable target: 48/66 examples (73%)**
+**Maximum achievable target: 52/66 examples (79%)** (if manipulators are added)
 
-Framework is solid and extensible for advanced examples if needed.
+Framework is solid and has been successfully extended for camera simulation, pick actions, selection callbacks, and event handling.
