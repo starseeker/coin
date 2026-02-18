@@ -95,6 +95,15 @@ echo "  Running ReadFile..."
 echo "  Running ReadString..."
 "$BIN_DIR/11.2.ReadString" 2>&1 | grep -i "success\|error" | tail -1
 
+echo "  Running TransformOrdering..."
+"$BIN_DIR/05.6.TransformOrdering" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running Complex3DText..."
+"$BIN_DIR/06.3.Complex3DText" 2>&1 | grep -i "success\|error" | tail -1
+
+echo "  Running GenSph..."
+"$BIN_DIR/09.5.GenSph" 2>&1 | grep -i "success\|error" | tail -1
+
 # List generated files
 echo ""
 echo "Generated images:"
