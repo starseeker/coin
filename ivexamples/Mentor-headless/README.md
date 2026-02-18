@@ -27,6 +27,8 @@ The goal of these headless examples is to:
 - **[MANIPULATOR_ANALYSIS.md](MANIPULATOR_ANALYSIS.md)** - Analysis proving manipulators are toolkit-agnostic
 - **[CONVERSION_ANALYSIS.md](CONVERSION_ANALYSIS.md)** - Original conversion planning
 - **[IMPLEMENTATION_NOTES.md](IMPLEMENTATION_NOTES.md)** - Technical implementation details
+- **[TESTING_GUIDE.md](TESTING_GUIDE.md)** - Comprehensive guide to automated testing with image comparison
+- **[CONTROL_IMAGE_GENERATION.md](CONTROL_IMAGE_GENERATION.md)** - How to generate control images for testing
 
 ## Building
 
