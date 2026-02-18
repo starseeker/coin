@@ -16,7 +16,6 @@
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoDirectionalLight.h>
-#include <Inventor/SbTypes.h>
 #include <cmath>
 #include <cstdio>
 

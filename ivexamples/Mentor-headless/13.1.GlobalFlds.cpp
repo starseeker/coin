@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     char filename[256];
 
     // Render at current time
-    printf("Current realTime value: %s\n", myText->string.getValue().getString());
+    printf("Current realTime value: %s\n", myText->string[0].getString());
     snprintf(filename, sizeof(filename), "%s_time1.rgb", baseFilename);
     renderToFile(root, filename);
 
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     SoDB::getSensorManager()->processTimerQueue();
     SoDB::getSensorManager()->processDelayQueue(TRUE);
 
-    printf("Updated realTime value: %s\n", myText->string.getValue().getString());
+    printf("Updated realTime value: %s\n", myText->string[0].getString());
     snprintf(filename, sizeof(filename), "%s_time2.rgb", baseFilename);
     renderToFile(root, filename);
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     SoDB::getSensorManager()->processTimerQueue();
     SoDB::getSensorManager()->processDelayQueue(TRUE);
     
-    printf("Final realTime value: %s\n", myText->string.getValue().getString());
+    printf("Final realTime value: %s\n", myText->string[0].getString());
     snprintf(filename, sizeof(filename), "%s_time3.rgb", baseFilename);
     renderToFile(root, filename);
 
