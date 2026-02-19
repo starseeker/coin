@@ -245,9 +245,10 @@ run_example() {
         return 1
     fi
 
-    # Ensure a canonical _control.png exists (for multi-view examples)
+    # Ensure a canonical _control.png exists (for multi-view examples).
+    # Always update it to keep it in sync with the first alphabetical view.
     local primary_png="$CONTROL_DIR/${example}_control.png"
-    if [ ! -f "$primary_png" ] && [ -n "$first_png" ] && [ "$first_png" != "$primary_png" ]; then
+    if [ -n "$first_png" ] && [ "$first_png" != "$primary_png" ]; then
         cp "$first_png" "$primary_png"
     fi
 

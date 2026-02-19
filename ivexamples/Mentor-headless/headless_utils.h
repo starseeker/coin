@@ -156,25 +156,51 @@ inline void viewAll(SoNode *root, SoCamera *camera, const SbViewportRegion &view
 }
 
 /**
- * Rotate camera around scene by specified angles
- * @param camera Camera to rotate
- * @param azimuth Horizontal rotation in radians
- * @param elevation Vertical rotation in radians
+ * Orbit camera around the scene center by specified angles.
+ *
+ * The camera position is moved along the surface of a sphere centered at the
+ * origin (the default target of viewAll()), keeping the camera pointed at the
+ * center. This produces correct non-blank images for side/angle views even
+ * when the scene is small relative to the camera distance.
+ *
+ * @param camera   Camera to reposition
+ * @param azimuth  Horizontal orbit angle in radians (around world Y axis)
+ * @param elevation Vertical orbit angle in radians (positive = higher vantage)
  */
 inline void rotateCamera(SoCamera *camera, float azimuth, float elevation) {
     if (!camera) return;
-    
-    // Get current position and orientation
-    SbVec3f position = camera->position.getValue();
-    SbRotation orientation = camera->orientation.getValue();
-    
-    // Create rotation around Y axis (azimuth) and X axis (elevation)
-    SbRotation azimuthRot(SbVec3f(0, 1, 0), azimuth);
-    SbRotation elevationRot(SbVec3f(1, 0, 0), elevation);
-    
-    // Apply rotations
-    SbRotation newOrientation = orientation * azimuthRot * elevationRot;
-    camera->orientation.setValue(newOrientation);
+
+    // Scene center: viewAll() targets the origin by default
+    const SbVec3f center(0.0f, 0.0f, 0.0f);
+
+    // Vector from scene center to camera
+    SbVec3f offset = camera->position.getValue() - center;
+
+    // Step 1: Apply azimuth by orbiting around the world Y axis
+    SbRotation azimuthRot(SbVec3f(0.0f, 1.0f, 0.0f), azimuth);
+    azimuthRot.multVec(offset, offset);
+
+    // Step 2: Compute the right vector (perpendicular to Y-up and view direction)
+    // so that elevation orbits the camera upward/downward around that axis.
+    SbVec3f viewDir = -offset;   // camera looks toward center
+    viewDir.normalize();
+    SbVec3f up(0.0f, 1.0f, 0.0f);
+    SbVec3f rightVec = up.cross(viewDir);
+    float rLen = rightVec.length();
+    if (rLen < 1e-4f) {
+        // Camera is near the polar axis - fall back to X as the right vector
+        rightVec = SbVec3f(1.0f, 0.0f, 0.0f);
+    } else {
+        rightVec *= (1.0f / rLen);   // normalize
+    }
+
+    // Apply elevation orbit around the right vector
+    SbRotation elevationRot(rightVec, elevation);
+    elevationRot.multVec(offset, offset);
+
+    // Move camera to new orbit position and orient it toward the scene center
+    camera->position.setValue(center + offset);
+    camera->pointAt(center, SbVec3f(0.0f, 1.0f, 0.0f));
 }
 
 /**
