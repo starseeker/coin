@@ -23,6 +23,8 @@ Makefile
 # Allow control images
 !control_images/*.rgb
 !control_images/**/*.rgb
+!control_images/*.png
+!control_images/**/*.png
 
 # Test output
 test_output/
