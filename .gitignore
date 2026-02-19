@@ -20,3 +20,5 @@ cmake-build-*/
 
 # Generated files
 *.autosave
+build_headless/
+ivexamples/Mentor-headless/build/
