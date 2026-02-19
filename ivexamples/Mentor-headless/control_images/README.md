@@ -1,131 +1,95 @@
 # Control Images
 
-This directory contains reference images for testing the headless Mentor examples.
-
-## Purpose
-
-These control images are used for regression testing to ensure that:
-1. The rendering output remains consistent across builds
-2. Changes to the Coin library don't introduce visual regressions
-3. Platform differences in rendering are acceptable within defined thresholds
-
-## Generating Control Images
-
-To generate control images, first build the examples:
-
-```bash
-cd ivexamples/Mentor-headless
-mkdir build
-cd build
-cmake ..
-make
-```
-
-Then run the generation script:
-
-```bash
-cd ..
-BUILD_DIR=build ./generate_control_images.sh
-```
-
-Or use the CMake target:
-
-```bash
-cd build
-make generate_controls
-```
-
-This will create `*_control.rgb` files in this directory.
+This directory contains reference (control) images for regression testing
+of the headless Mentor examples.
 
 ## Image Format
 
-Control images are in SGI RGB format (`.rgb`), which is natively supported by Coin's 
-`SoOffscreenRenderer::writeToRGB()` method. This format:
+Control images are stored as **PNG** (`.png`) for compact repository storage.
+PNG encoding is **lossless**: the exact RGB pixel values from the original
+SGI RGB rendering are preserved and can be recovered bitwise.
 
-- Does not require external image libraries
-- Is simple and well-defined
-- Can be converted to other formats using ImageMagick if needed:
-  ```bash
-  convert input.rgb output.png
-  ```
+- Each PNG contains 8-bit RGB pixel data (no alpha channel)
+- Rows are stored top-to-bottom (standard PNG convention)
+- Original SGI RGB data was rendered at **800×600 pixels**
+
+The runtime test generates SGI RGB images (Coin's native offscreen format).
+The `image_comparator` utility can read both `.rgb` and `.png` files and
+decodes them to the same interleaved RGB representation for comparison.
 
 ## Naming Convention
 
-Control images follow the naming pattern: `<example_name>_control.rgb`
+Images follow a two-part naming scheme:
+
+| Pattern | Meaning |
+|---------|---------|
+| `{example_name}_control.png` | Primary (canonical) view for the example |
+| `{example_name}_{view_suffix}_control.png` | Additional view for multi-view examples |
 
 Examples:
-- `02.1.HelloCone_control.rgb` - Control image for HelloCone example
-- `03.1.Molecule_control.rgb` - Control image for Molecule example
-- `15.3.AttachManip_control.rgb` - Control image for AttachManip example
+- `02.1.HelloCone_control.png` — single view for HelloCone
+- `03.1.Molecule_front_control.png` — front view for Molecule
+- `03.1.Molecule_side_control.png` — side view for Molecule
+- `02.2.EngineSpin_frame00_control.png` — frame 0 of the spinning animation
 
-## Image Comparison
+For **regression tests**, only the primary `{example_name}_control.png` is
+used. Multi-view images provide a complete reference series.
 
-The images are compared using the `image_comparator` utility, which provides:
+## Generation
 
-1. **Pixel-perfect comparison** - Exact byte-for-byte match
-2. **Perceptual hash comparison** - Approximate match using perceptual hashing
-3. **RMSE comparison** - Root Mean Square Error between images
-
-The comparison thresholds can be configured at CMake configure time:
+Control images are generated using `generate_control_images.sh`:
 
 ```bash
-cmake -DIMAGE_COMPARISON_HASH_THRESHOLD=10 \
-      -DIMAGE_COMPARISON_RMSE_THRESHOLD=8.0 ..
+# Build Coin and the examples first:
+cd <repo_root>
+mkdir build && cd build && cmake .. && make
+cd ../ivexamples/Mentor-headless
+mkdir build && cd build && cmake .. && make
+cd ..
+
+# Generate control images (requires Xvfb for headless rendering):
+BUILD_DIR=build DISPLAY=:99 ./generate_control_images.sh
 ```
 
-### Threshold Guidelines
+The script:
+1. Starts Xvfb if `DISPLAY` is not set
+2. Runs each example with `COIN_GLX_PIXMAP_DIRECT_RENDERING=1` and
+   `COIN_GLXGLUE_NO_PBUFFERS=1` for Xvfb compatibility
+3. Converts each SGI RGB output to PNG via `rgb_to_png`
+4. Copies the first generated view as the canonical `_control.png`
 
-**Hash Threshold** (0-64):
-- 0 = Pixel-perfect match required
-- 1-4 = Very strict (minor rendering differences, anti-aliasing)
-- 5-9 = Moderate (font rendering variations, OpenGL driver differences)
-- 10-19 = Tolerant (acceptable for cross-platform testing)
-- 20+ = Very tolerant (major differences acceptable)
+## Round-Trip Fidelity
 
-**RMSE Threshold** (0-255):
-- 0.0 = Pixel-perfect match required
-- 0.1-4.9 = Very strict (minimal color/brightness variations)
-- 5.0-9.9 = Moderate (acceptable rendering differences)
-- 10.0-19.9 = Tolerant (noticeable but acceptable differences)
-- 20.0+ = Very tolerant (significant differences acceptable)
+The PNG files can be converted back to SGI RGB for bit-exact comparison:
+- PNG stores the same interleaved RGB bytes that Coin renders
+- `image_comparator` reads PNG and SGI RGB to the same internal format
+- A re-rendered SGI RGB image compares as **pixel-perfect** against the PNG
+
+## Coverage
+
+- **49 of 55** examples generate control images
+- **6 examples** (chapters 14–15 manipulator examples) currently segfault and
+  have no control images
+- Examples generating multiple views also have a canonical `_control.png`
 
 ## Updating Control Images
 
-Control images should be updated when:
+Update when there is an **intentional** rendering change or new example:
 
-1. **Intentional visual changes** - When rendering improvements or fixes change the expected output
-2. **Platform changes** - When baseline rendering behavior changes (e.g., OpenGL driver updates)
-3. **Resolution changes** - When output image size is modified
-
-To update control images, regenerate them using the script above.
+```bash
+# Remove old images and regenerate:
+rm control_images/*.png
+BUILD_DIR=build ./generate_control_images.sh
+```
 
 ## Testing
 
-To run the image comparison tests:
+Run regression tests (requires control images to exist):
 
 ```bash
-cd build
-ctest
+cd ivexamples/Mentor-headless/build
+DISPLAY=:99 \
+  COIN_GLX_PIXMAP_DIRECT_RENDERING=1 \
+  COIN_GLXGLUE_NO_PBUFFERS=1 \
+  ctest -V
 ```
-
-Or to run specific tests:
-
-```bash
-ctest -R "02.1.HelloCone"
-ctest -R "Molecule"
-```
-
-To see verbose output:
-
-```bash
-ctest -V
-```
-
-## Version Control
-
-Control images should be committed to version control when:
-- Initial generation for new examples
-- Intentional updates after verified visual changes
-- Platform-specific baselines (if needed)
-
-Large binary files may benefit from Git LFS if the repository uses it.
