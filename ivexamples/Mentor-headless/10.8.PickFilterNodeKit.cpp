@@ -158,7 +158,7 @@ void mtlChangeCB(void *userData, const SoMaterial *mtl)
     }
 }
 
-int main(int, char **argv)
+int main(int argc, char **argv)
 {
     printf("=== Mentor Example 10.8: Pick Filter for NodeKits ===\n");
     printf("This demonstrates toolkit-agnostic pick filtering and material editing\n");
@@ -212,10 +212,14 @@ int main(int, char **argv)
     sel->addSelectionCallback(selectCB, &userData);
     
     printf("\nCallbacks registered. Now simulating user interactions...\n");
-    
+
+    const char *baseFilename = (argc > 1) ? argv[1] : "10.8.PickFilterNodeKit";
+    char filename[512];
+
     // Render initial scene
     printf("\n--- State 1: Initial scene (nothing selected) ---\n");
-    viewer->render("10.8.PickFilterNodeKit-initial.rgb");
+    snprintf(filename, sizeof(filename), "%s_initial.rgb", baseFilename);
+    viewer->render(filename);
     
     // Simulate picking a nodekit by path
     // In real toolkit, user would click with mouse
@@ -228,7 +232,8 @@ int main(int, char **argv)
     sel->select(path0);
     
     printf("--- State 2: Nodekit 0 selected (default material) ---\n");
-    viewer->render("10.8.PickFilterNodeKit-selected-default.rgb");
+    snprintf(filename, sizeof(filename), "%s_selected_default.rgb", baseFilename);
+    viewer->render(filename);
     
     // Simulate user changing material to red in editor
     printf("\n--- User changes material to red in editor ---\n");
@@ -242,7 +247,8 @@ int main(int, char **argv)
     redMtl->unref();
     
     printf("--- State 3: Selected nodekit now red ---\n");
-    viewer->render("10.8.PickFilterNodeKit-red.rgb");
+    snprintf(filename, sizeof(filename), "%s_red.rgb", baseFilename);
+    viewer->render(filename);
     
     // Select a different nodekit
     printf("\n--- Simulating pick on nodekit 3 (right side) ---\n");
@@ -254,7 +260,8 @@ int main(int, char **argv)
     
     printf("--- State 4: Different nodekit selected ---\n");
     printf("(Editor should sync to show this nodekit's material)\n");
-    viewer->render("10.8.PickFilterNodeKit-select-different.rgb");
+    snprintf(filename, sizeof(filename), "%s_select_different.rgb", baseFilename);
+    viewer->render(filename);
     
     // Change this one to blue
     printf("\n--- User changes this nodekit's material to blue ---\n");
@@ -268,7 +275,8 @@ int main(int, char **argv)
     blueMtl->unref();
     
     printf("--- State 5: Now have both red and blue nodekits ---\n");
-    viewer->render("10.8.PickFilterNodeKit-multiple-colors.rgb");
+    snprintf(filename, sizeof(filename), "%s_multiple_colors.rgb", baseFilename);
+    viewer->render(filename);
     
     // Select multiple nodekits
     printf("\n--- Selecting multiple nodekits ---\n");
@@ -281,7 +289,8 @@ int main(int, char **argv)
     sel->select(path6);
     
     printf("--- State 6: Multiple nodekits selected ---\n");
-    viewer->render("10.8.PickFilterNodeKit-multi-select.rgb");
+    snprintf(filename, sizeof(filename), "%s_multi_select.rgb", baseFilename);
+    viewer->render(filename);
     
     // Change material of all selected
     printf("\n--- User changes material to green (affects all selected) ---\n");
@@ -295,7 +304,8 @@ int main(int, char **argv)
     greenMtl->unref();
     
     printf("--- State 7: Multiple nodekits changed to green ---\n");
-    viewer->render("10.8.PickFilterNodeKit-multi-edit.rgb");
+    snprintf(filename, sizeof(filename), "%s_multi_edit.rgb", baseFilename);
+    viewer->render(filename);
 
     printf("\n=== Summary ===\n");
     printf("Generated 7 images showing pick filtering and material editing\n");

@@ -1,4 +1,5 @@
 # CMake script to run an image comparison test
+cmake_policy(SET CMP0057 NEW)  # Enable IN_LIST operator in if()
 #
 # This script:
 # 1. Runs the example executable to generate test images (SGI RGB format)
@@ -48,10 +49,22 @@ if(NOT EXISTS "${CONTROL_IMAGE}")
     message(FATAL_ERROR "Control image not found: ${CONTROL_IMAGE}")
 endif()
 
+# On Unix systems with no display available, wrap the executable with xvfb-run
+# so that GLX offscreen rendering can create a software-rendering context.
+set(_exec_cmd "${EXECUTABLE}" "${TEST_BASE}")
+if(UNIX AND NOT APPLE)
+    if(NOT DEFINED ENV{DISPLAY} OR "$ENV{DISPLAY}" STREQUAL "")
+        find_program(_xvfb_run NAMES xvfb-run)
+        if(_xvfb_run)
+            set(_exec_cmd "${_xvfb_run}" "--auto-servernum" "--server-args=-screen 0 1024x768x24" "${EXECUTABLE}" "${TEST_BASE}")
+        endif()
+    endif()
+endif()
+
 # Run the example with the base name as argv[1]
 message("Running example: ${EXECUTABLE}")
 execute_process(
-    COMMAND "${EXECUTABLE}" "${TEST_BASE}"
+    COMMAND ${_exec_cmd}
     RESULT_VARIABLE EXEC_RESULT
     OUTPUT_VARIABLE EXEC_OUTPUT
     ERROR_VARIABLE EXEC_ERROR
