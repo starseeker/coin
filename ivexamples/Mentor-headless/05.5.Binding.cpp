@@ -131,9 +131,10 @@ SoSeparator *makeStellatedDodecahedron(int bindingType)
             }
         }
     }
-    // For PER_FACE_INDEXED, set face material indices
+    // For PER_FACE_INDEXED, use only 2 materials (half red / half blue) so
+    // the result is visually distinct from PER_FACE (which uses all 12 colors).
     else if (bindingType == 2) {
-        int32_t faceIndices[12] = {0,1,2,3,4,5,6,7,8,9,10,11};
+        int32_t faceIndices[12] = {0,0,0,0,0,0,1,1,1,1,1,1};
         myFaceSet->materialIndex.setValues(0, 12, faceIndices);
     }
     

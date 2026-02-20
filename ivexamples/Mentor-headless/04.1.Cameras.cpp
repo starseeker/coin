@@ -67,43 +67,43 @@ int main(int argc, char **argv)
     // Create a light
     root->addChild(new SoDirectionalLight);
 
-    // Create a simple scene (replace file reading with built-in geometry)
-    // Create a bench-like structure
+    // Create a scene with three clearly identifiable 3D shapes
+    // spread along the X axis so all three camera modes show distinct views.
     SoSeparator *sceneContent = new SoSeparator;
-    
-    SoMaterial *myMaterial = new SoMaterial;
-    myMaterial->diffuseColor.setValue(0.8, 0.23, 0.03);
-    sceneContent->addChild(myMaterial);
-    
-    // Seat
-    SoTransform *seatTransform = new SoTransform;
-    seatTransform->translation.setValue(0, 1, 0);
-    seatTransform->scaleFactor.setValue(3, 0.2, 1);
-    sceneContent->addChild(seatTransform);
-    sceneContent->addChild(new SoCube);
-    
-    // Back
-    SoSeparator *backSep = new SoSeparator;
-    SoTransform *backTransform = new SoTransform;
-    backTransform->translation.setValue(0, 2, -0.4);
-    backTransform->scaleFactor.setValue(3, 1.5, 0.2);
-    backSep->addChild(backTransform);
-    backSep->addChild(new SoCube);
-    sceneContent->addChild(backSep);
-    
-    // Legs
-    for (int i = 0; i < 4; i++) {
-        SoSeparator *legSep = new SoSeparator;
-        SoTransform *legTransform = new SoTransform;
-        float x = (i < 2) ? -1.2 : 1.2;
-        float z = (i % 2 == 0) ? -0.4 : 0.4;
-        legTransform->translation.setValue(x, 0.0, z);
-        legTransform->scaleFactor.setValue(0.2, 1, 0.2);
-        legSep->addChild(legTransform);
-        legSep->addChild(new SoCube);
-        sceneContent->addChild(legSep);
-    }
-    
+
+    // Left: red cube
+    SoSeparator *cubeSep = new SoSeparator;
+    SoMaterial *cubeMat = new SoMaterial;
+    cubeMat->diffuseColor.setValue(0.8, 0.1, 0.1);
+    SoTransform *cubeXform = new SoTransform;
+    cubeXform->translation.setValue(-2.5, 0, 0);
+    cubeSep->addChild(cubeMat);
+    cubeSep->addChild(cubeXform);
+    cubeSep->addChild(new SoCube);
+    sceneContent->addChild(cubeSep);
+
+    // Center: green sphere on a short pedestal
+    SoSeparator *sphereSep = new SoSeparator;
+    SoMaterial *sphereMat = new SoMaterial;
+    sphereMat->diffuseColor.setValue(0.1, 0.7, 0.1);
+    SoTransform *sphereXform = new SoTransform;
+    sphereXform->translation.setValue(0, 1.0, 0);
+    sphereSep->addChild(sphereMat);
+    sphereSep->addChild(sphereXform);
+    sphereSep->addChild(new SoSphere);
+    sceneContent->addChild(sphereSep);
+
+    // Right: blue cone
+    SoSeparator *coneSep = new SoSeparator;
+    SoMaterial *coneMat = new SoMaterial;
+    coneMat->diffuseColor.setValue(0.1, 0.3, 0.9);
+    SoTransform *coneXform = new SoTransform;
+    coneXform->translation.setValue(2.5, 0, 0);
+    coneSep->addChild(coneMat);
+    coneSep->addChild(coneXform);
+    coneSep->addChild(new SoCone);
+    sceneContent->addChild(coneSep);
+
     root->addChild(sceneContent);
 
     // Create three cameras

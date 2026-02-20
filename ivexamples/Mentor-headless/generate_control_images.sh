@@ -245,8 +245,16 @@ run_example() {
         return 1
     fi
 
-    # Ensure a canonical _control.png exists (for multi-view examples).
-    # Always update it to keep it in sync with the first alphabetical view.
+    # Ensure a canonical _control.png exists for the primary regression test
+    # (run_image_test.cmake compares the first generated image against it).
+    # For multi-view and multi-frame examples the primary is a copy of the
+    # first alphabetical view/frame image.  This intentionally means
+    # <example>_control.png == <example>_<first-view>_control.png; the apparent
+    # duplication is by design:
+    #   • add_image_test() uses <example>_control.png as its reference
+    #   • run_image_test.cmake additionally compares each per-frame/per-view
+    #     image against its own _control.png, providing frame-level coverage
+    # The two comparisons for the first frame/view are redundant but harmless.
     local primary_png="$CONTROL_DIR/${example}_control.png"
     if [ -n "$first_png" ] && [ "$first_png" != "$primary_png" ]; then
         cp "$first_png" "$primary_png"

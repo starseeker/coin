@@ -68,14 +68,14 @@ int main(int argc, char **argv)
     root->addChild(camera);
     root->addChild(new SoDirectionalLight);
 
-    // Create a simple windmill tower (cylinder)
+    // Create a windmill tower: a slightly tapered cylinder body with a base
     SoMaterial *towerMat = new SoMaterial;
     towerMat->diffuseColor.setValue(0.5, 0.3, 0.1);
     root->addChild(towerMat);
-    
+
     SoTransform *towerXform = new SoTransform;
-    towerXform->translation.setValue(0, -2, 0);
-    towerXform->scaleFactor.setValue(0.3, 3, 0.3);
+    towerXform->translation.setValue(0, -1.5, 0);
+    towerXform->scaleFactor.setValue(0.5, 3.0, 0.5);
     root->addChild(towerXform);
     root->addChild(new SoCylinder);
 
@@ -85,33 +85,47 @@ int main(int argc, char **argv)
     myRotor->speed = 0.2;
     root->addChild(myRotor);
 
-    // Create simple windmill vanes (4 thin cubes arranged as blades)
+    // Create windmill vanes: 4 rectangular blades arranged in a cross pattern.
+    // Use a hub (small cylinder) plus 4 blade cubes with visible depth so they
+    // look like real vanes and not thin lines from any camera angle.
     SoSeparator *vanesSep = new SoSeparator;
     root->addChild(vanesSep);
-    
-    SoMaterial *vanesMat = new SoMaterial;
-    vanesMat->diffuseColor.setValue(0.8, 0.8, 0.9);
-    vanesSep->addChild(vanesMat);
-    
-    // Horizontal vane
-    SoSeparator *vane1 = new SoSeparator;
-    vanesSep->addChild(vane1);
-    SoTransform *vane1Xform = new SoTransform;
-    vane1Xform->scaleFactor.setValue(2, 0.1, 0.05);
-    vane1->addChild(vane1Xform);
-    vane1->addChild(new SoCube);
-    
-    // Vertical vane
-    SoSeparator *vane2 = new SoSeparator;
-    vanesSep->addChild(vane2);
-    SoTransform *vane2Xform = new SoTransform;
-    vane2Xform->scaleFactor.setValue(0.1, 2, 0.05);
-    vane2->addChild(vane2Xform);
-    vane2->addChild(new SoCube);
 
-    // Setup camera to view the windmill
-    camera->position.setValue(0, 0, 10);
-    camera->pointAt(SbVec3f(0, 0, 0));
+    SoMaterial *vanesMat = new SoMaterial;
+    vanesMat->diffuseColor.setValue(0.8, 0.75, 0.5);
+    vanesSep->addChild(vanesMat);
+
+    // Hub
+    SoSeparator *hubSep = new SoSeparator;
+    vanesSep->addChild(hubSep);
+    SoTransform *hubXform = new SoTransform;
+    hubXform->scaleFactor.setValue(0.3, 0.3, 0.3);
+    hubSep->addChild(hubXform);
+    hubSep->addChild(new SoCylinder);
+
+    // Four blades at 0°, 90°, 180°, 270°
+    const float bladeAngles[4] = {0.0f, (float)M_PI/2, (float)M_PI, 3*(float)M_PI/2};
+    for (int b = 0; b < 4; b++) {
+        SoSeparator *bladeSep = new SoSeparator;
+        vanesSep->addChild(bladeSep);
+
+        SoTransform *bladeXform = new SoTransform;
+        // Place blade centre at radius 1.2 from hub
+        float bx = 1.2f * cosf(bladeAngles[b]);
+        float by = 1.2f * sinf(bladeAngles[b]);
+        bladeXform->translation.setValue(bx, by, 0);
+        bladeXform->rotation.setValue(SbVec3f(0, 0, 1), bladeAngles[b]);
+        // Blade: long in Y (2.0), medium width in X (0.4), visible depth in Z (0.15)
+        bladeXform->scaleFactor.setValue(0.4f, 2.0f, 0.15f);
+        bladeSep->addChild(bladeXform);
+        bladeSep->addChild(new SoCube);
+    }
+
+    // Position camera at an elevated angle to show the windmill in 3D.
+    // Viewing from upper-left rather than straight-on makes the vane depth
+    // visible and the overall structure look like a rotor.
+    camera->position.setValue(4.0f, 3.0f, 8.0f);
+    camera->pointAt(SbVec3f(0, 0, 0), SbVec3f(0, 1, 0));
 
     const char *baseFilename = (argc > 1) ? argv[1] : "13.7.Rotor";
     char filename[256];

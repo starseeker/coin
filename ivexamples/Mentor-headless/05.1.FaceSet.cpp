@@ -45,6 +45,7 @@
 #include <Inventor/nodes/SoCoordinate3.h>
 #include <Inventor/nodes/SoFaceSet.h>
 #include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/nodes/SoMaterialBinding.h>
 #include <Inventor/nodes/SoNormal.h>
 #include <Inventor/nodes/SoNormalBinding.h>
 #include <Inventor/nodes/SoSeparator.h>
@@ -79,6 +80,19 @@ static const float norms[8][3] =
    {0, .0739, -.9973}, { .9972, .0739, 0},//rear, right quads
 };
 
+// Distinct colors for each of the 8 faces (4 triangular caps + 4 quad sides)
+static const float faceColors[8][3] =
+{
+    {0.9f, 0.2f, 0.2f},   // front  tri  - red
+    {0.2f, 0.7f, 0.2f},   // left   tri  - green
+    {0.2f, 0.2f, 0.9f},   // rear   tri  - blue
+    {0.9f, 0.8f, 0.1f},   // right  tri  - yellow
+    {0.9f, 0.5f, 0.1f},   // front  quad - orange
+    {0.5f, 0.2f, 0.8f},   // left   quad - purple
+    {0.1f, 0.7f, 0.8f},   // rear   quad - cyan
+    {0.8f, 0.8f, 0.8f},   // right  quad - light grey
+};
+
 SoSeparator *makeObeliskFaceSet()
 {
     SoSeparator *obelisk = new SoSeparator();
@@ -88,14 +102,18 @@ SoSeparator *makeObeliskFaceSet()
     SoNormal *myNormals = new SoNormal;
     myNormals->vector.setValues(0, 8, norms);
     obelisk->addChild(myNormals);
-    
+
     SoNormalBinding *myNormalBinding = new SoNormalBinding;
     myNormalBinding->value = SoNormalBinding::PER_FACE;
     obelisk->addChild(myNormalBinding);
 
-    // Define material for obelisk
+    // Bind one distinct color per face so the 3D structure is clearly visible
+    SoMaterialBinding *myMatBinding = new SoMaterialBinding;
+    myMatBinding->value = SoMaterialBinding::PER_FACE;
+    obelisk->addChild(myMatBinding);
+
     SoMaterial *myMaterial = new SoMaterial;
-    myMaterial->diffuseColor.setValue(.4, .4, .4);
+    myMaterial->diffuseColor.setValues(0, 8, faceColors);
     obelisk->addChild(myMaterial);
 
     // Define coordinates for vertices
