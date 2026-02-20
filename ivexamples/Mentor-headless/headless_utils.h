@@ -10,6 +10,8 @@
 #define HEADLESS_UTILS_H
 
 #include <Inventor/SoDB.h>
+#include <Inventor/nodekits/SoNodeKit.h>
+#include <Inventor/SoInteraction.h>
 #include <Inventor/SoOffscreenRenderer.h>
 #include <Inventor/SbViewportRegion.h>
 #include <Inventor/nodes/SoNode.h>
@@ -24,6 +26,9 @@
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
 #include <Inventor/events/SoKeyboardEvent.h>
+#ifdef __unix__
+#include <X11/Xlib.h>
+#endif
 #include <cstdio>
 #include <cstring>
 #include <cmath>
@@ -34,9 +39,35 @@
 
 /**
  * Initialize Coin database for headless operation
+ *
+ * Notes:
+ * - SoNodeKit::init() and SoInteraction::init() must be called explicitly
+ *   because SoDB::init() does NOT call them (by design in Coin's architecture).
+ * - On X11 systems, a non-exiting X error handler is installed to prevent
+ *   spurious BadMatch errors from Mesa/llvmpipe (during pbuffer pixel transfer)
+ *   from aborting the process.  The default Xlib error handler calls exit(1)
+ *   for any X error, including non-fatal ones.
+ *
+ * Important: the installed X error handler is global and permanent (it is NOT
+ * restored).  This is appropriate for headless single-run example programs.
+ * Do not call this function in library code or long-lived applications that
+ * need to preserve their own X error handling policy.
  */
 inline void initCoinHeadless() {
+#ifdef __unix__
+    // Install a lenient X error handler before initializing Coin so that
+    // spurious X errors from Mesa's internal pixel-transfer paths (e.g.
+    // BadMatch from X_PutImage / X_ShmPutImage when using llvmpipe pbuffers)
+    // do not terminate the process via the default Xlib exit(1) handler.
+    XSetErrorHandler([](Display *, XErrorEvent *err) -> int {
+        fprintf(stderr, "Coin headless: X error ignored (code=%d opcode=%d/%d)\n",
+                (int)err->error_code, (int)err->request_code, (int)err->minor_code);
+        return 0;
+    });
+#endif
     SoDB::init();
+    SoNodeKit::init();
+    SoInteraction::init();
 }
 
 /**

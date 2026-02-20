@@ -27,6 +27,7 @@ if(NOT Coin_FOUND)
     
     # Find required libraries
     find_package(OpenGL REQUIRED)
+    find_package(X11 QUIET)
     
     # Link directories
     link_directories(${COIN_LIB_DIR})
@@ -39,6 +40,10 @@ if(NOT Coin_FOUND)
             ${COIN_INCLUDE_DIR} 
             ${CMAKE_CURRENT_SOURCE_DIR})
         target_link_libraries(${name} Coin ${OPENGL_LIBRARIES})
+        if(X11_FOUND)
+            target_link_libraries(${name} ${X11_X11_LIB})
+            target_include_directories(${name} PRIVATE ${X11_INCLUDE_DIR})
+        endif()
         set_target_properties(${name} PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin"
         )
@@ -48,10 +53,16 @@ else()
     include_directories(${Coin_INCLUDE_DIRS})
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
     
+    find_package(X11 QUIET)
+    
     macro(add_headless_example name)
         add_executable(${name} ${name}.cpp)
         target_include_directories(${name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
         target_link_libraries(${name} Coin::Coin)
+        if(X11_FOUND)
+            target_link_libraries(${name} ${X11_X11_LIB})
+            target_include_directories(${name} PRIVATE ${X11_INCLUDE_DIR})
+        endif()
         set_target_properties(${name} PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin"
         )
