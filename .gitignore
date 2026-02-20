@@ -1,6 +1,7 @@
 # Build directories
 build/
 cmake-build-*/
+CMakeFiles/
 
 # IDE files
 .vscode/
@@ -20,5 +21,6 @@ cmake-build-*/
 
 # Generated files
 *.autosave
+build_headless
 build_headless/
 ivexamples/Mentor-headless/build/
