@@ -1,6 +1,3 @@
-[submodule "build/general"]
-	path = build/general
-	url = https://github.com/coin3d/generalmsvcgeneration
 [submodule "cpack.d"]
 	path = cpack.d
 	url = https://github.com/coin3d/cpack.d
@@ -8,3 +5,6 @@
 	path = docs/doxygen-awesome
 	url = https://github.com/coin3d/doxygen-awesome-css.git
 	branch = coin3d
+[submodule "ivexamples/osmesa"]
+	path = ivexamples/osmesa
+	url = https://github.com/starseeker/osmesa
