@@ -62,11 +62,15 @@
 #include <Inventor/Sb.h>
 #include <Inventor/nodes/SoCamera.h>
 #include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/nodes/SoDrawStyle.h>
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/nodes/SoLightModel.h>
+#include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoPointSet.h>
 #include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoSphere.h>
+#include <Inventor/nodes/SoTranslation.h>
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <Inventor/events/SoMouseButtonEvent.h>
 #include <Inventor/events/SoLocation2Event.h>
@@ -80,6 +84,10 @@ SoTimerSensor *myTicker;
 
 // Camera rotation state
 bool rotating = false;
+
+// Global pointers to the coordinate and point set nodes
+static SoCoordinate3 *g_myCoord = NULL;
+static SoPointSet    *g_myPointSet = NULL;
 
 // Project mouse position to 3D point
 void myProjectPoint(MockRenderArea *myRenderArea, 
@@ -107,23 +115,15 @@ void myProjectPoint(MockRenderArea *myRenderArea,
 // Add point to the point set
 void myAddPoint(MockRenderArea *myRenderArea, const SbVec3f point)
 {
-    SoGroup *root = (SoGroup *) myRenderArea->getSceneGraph();
-    SoCoordinate3 *coord = (SoCoordinate3 *) root->getChild(2);
-    SoPointSet *myPointSet = (SoPointSet *) root->getChild(3);
-    
-    coord->point.set1Value(coord->point.getNum(), point);
-    myPointSet->numPoints.setValue(coord->point.getNum());
+    g_myCoord->point.set1Value(g_myCoord->point.getNum(), point);
+    g_myPointSet->numPoints.setValue(g_myCoord->point.getNum());
 }
 
 // Clear all points
 void myClearPoints(MockRenderArea *myRenderArea)
 {
-    SoGroup *root = (SoGroup *) myRenderArea->getSceneGraph();
-    SoCoordinate3 *coord = (SoCoordinate3 *) root->getChild(2);
-    SoPointSet *myPointSet = (SoPointSet *) root->getChild(3);
-    
-    coord->point.deleteValues(0); 
-    myPointSet->numPoints.setValue(0);
+    g_myCoord->point.deleteValues(0); 
+    g_myPointSet->numPoints.setValue(0);
 }
 
 // Timer callback for camera rotation
@@ -233,13 +233,41 @@ int main(int argc, char **argv)
     myCamera->position.setValue(0, 0, 4);
     myCamera->nearDistance.setValue(1.0f);
     myCamera->farDistance.setValue(7.0f);
-    myCamera->heightAngle.setValue(float(M_PI)/3.0f);   
-    
+    myCamera->heightAngle.setValue(float(M_PI)/3.0f);
+
+    // Add a background sphere so the initial scene is not blank.
+    // The sphere is translated behind the projected click points (which land at z≈0)
+    // so that clicked points always appear in front of the sphere.
+    // A sub-separator isolates the sphere's material from the point rendering.
+    SoSeparator *bgSep = new SoSeparator;
+    SoMaterial  *bgMtl = new SoMaterial;
+    bgMtl->diffuseColor.setValue(0.4f, 0.6f, 0.8f);  // steel blue
+    bgSep->addChild(bgMtl);
+    SoTranslation *bgTrans = new SoTranslation;
+    bgTrans->translation.setValue(0.0f, 0.0f, -2.0f);  // behind projected points
+    bgSep->addChild(bgTrans);
+    SoSphere *bgSphere = new SoSphere;
+    bgSphere->radius.setValue(1.5f);
+    bgSep->addChild(bgSphere);
+    root->addChild(bgSep);  // child 2
+
+    // Bright yellow material and larger point size for the point set
+    SoMaterial *pointMtl = new SoMaterial;
+    pointMtl->diffuseColor.setValue(1.0f, 1.0f, 0.0f);  // yellow
+    root->addChild(pointMtl);  // child 3
+
+    SoDrawStyle *pointStyle = new SoDrawStyle;
+    pointStyle->pointSize.setValue(6.0f);
+    root->addChild(pointStyle);  // child 4
+
     // Add a coordinate and point set
     SoCoordinate3 *myCoord = new SoCoordinate3;
     SoPointSet *myPointSet = new SoPointSet;
-    root->addChild(myCoord);     // child 2
-    root->addChild(myPointSet);  // child 3
+    myPointSet->numPoints.setValue(0);  // start with no points rendered
+    g_myCoord    = myCoord;
+    g_myPointSet = myPointSet;
+    root->addChild(myCoord);     // child 5
+    root->addChild(myPointSet);  // child 6
 
     // Timer sensor for camera rotation
     myTicker = new SoTimerSensor(tickerCallback, myCamera);
@@ -277,30 +305,28 @@ int main(int argc, char **argv)
     MockAnyEvent nativeEvent;
     SoEvent* coinEvent;
     
-    // Add point at (300, 300)
-    nativeEvent.type = MockButtonPress;
+    // Add a spread of 12 points across the view.  Using more points makes the
+    // visual difference between "with points" and "cleared" frames obvious.
+    // Coordinates are chosen to land in front of the background sphere.
+    static const int clickCoords[][2] = {
+        {400, 300}, {250, 200}, {550, 200}, {250, 400}, {550, 400},
+        {150, 300}, {650, 300}, {400, 150}, {400, 450},
+        {300, 250}, {500, 250}, {300, 350}
+    };
+    static const int numClicks = 12;
+
+    nativeEvent.type   = MockButtonPress;
     nativeEvent.button = MockButton1;
-    nativeEvent.x = 300;
-    nativeEvent.y = 300;
-    coinEvent = translateNativeEvent(&nativeEvent, myRenderArea->getViewportRegion());
-    myRenderArea->processEvent(coinEvent);
-    delete coinEvent;
+
+    for (int i = 0; i < numClicks; i++) {
+        nativeEvent.x = clickCoords[i][0];
+        nativeEvent.y = clickCoords[i][1];
+        coinEvent = translateNativeEvent(&nativeEvent, myRenderArea->getViewportRegion());
+        myRenderArea->processEvent(coinEvent);
+        delete coinEvent;
+    }
     
-    // Add point at (400, 250)
-    nativeEvent.x = 400;
-    nativeEvent.y = 250;
-    coinEvent = translateNativeEvent(&nativeEvent, myRenderArea->getViewportRegion());
-    myRenderArea->processEvent(coinEvent);
-    delete coinEvent;
-    
-    // Add point at (350, 350)
-    nativeEvent.x = 350;
-    nativeEvent.y = 350;
-    coinEvent = translateNativeEvent(&nativeEvent, myRenderArea->getViewportRegion());
-    myRenderArea->processEvent(coinEvent);
-    delete coinEvent;
-    
-    printf("--- State 2: After adding 3 points ---\n");
+    printf("--- State 2: After adding %d points ---\n", numClicks);
     snprintf(filename, sizeof(filename), "%s_points.rgb", baseFilename);
     myRenderArea->render(filename);
     

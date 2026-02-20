@@ -350,7 +350,7 @@ add_custom_target(generate_controls
         07.1.BasicTexture 07.2.TextureCoordinates 07.3.TextureFunction
         08.1.BSCurve 08.2.UniCurve 08.3.BezSurf 08.4.TrimSurf
         09.1.Print 09.2.Texture 09.3.Search 09.4.PickAction 09.5.GenSph
-        10.1.addEventCB 10.5.SelectionCB 10.6.PickFilterTopLevel 10.7.PickFilterManip
+        10.1.addEventCB 10.2.setEventCB 10.5.SelectionCB 10.6.PickFilterTopLevel 10.7.PickFilterManip 10.8.PickFilterNodeKit
         11.1.ReadFile 11.2.ReadString
         12.1.FieldSensor 12.2.NodeSensor 12.3.AlarmSensor 12.4.TimerSensor
         13.1.GlobalFlds 13.2.ElapsedTime 13.3.TimeCounter 13.4.Gate 13.5.Boolean 13.6.Calculator 13.7.Rotor 13.8.Blinker

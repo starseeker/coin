@@ -189,6 +189,12 @@ int main(int argc, char **argv)
     // Add the scene content
     sel->addChild(buildScene());
 
+    // Position the camera to view all scene geometry with correct clipping planes
+    {
+        SbViewportRegion vp(800, 600);
+        camera->viewAll(sel, vp);
+    }
+
     // Create a mock viewer (in real toolkit, would be ExaminerViewer widget)
     printf("Creating mock examiner viewer...\n");
     MockExaminerViewer *viewer = new MockExaminerViewer(800, 600);
