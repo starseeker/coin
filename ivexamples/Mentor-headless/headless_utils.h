@@ -71,11 +71,42 @@ inline void initCoinHeadless() {
 }
 
 /**
- * Render a scene to an image file
+ * Return the single persistent offscreen renderer shared by all headless
+ * examples.
+ *
+ * Only ONE GLX offscreen context can be successfully created per process in
+ * Mesa/llvmpipe headless environments.  After the first SoOffscreenRenderer is
+ * destroyed, subsequent renderer creation attempts fail with
+ * "glXChooseFBConfig() gave no valid configs".  Sharing a single renderer
+ * object across all render calls avoids this limitation.
+ *
+ * The renderer is always created at DEFAULT_WIDTH x DEFAULT_HEIGHT.
+ * The renderer is intentionally kept alive for the entire process lifetime
+ * (static storage) since recreating it causes GLX context failures.
+ * @return Pointer to the shared renderer (never NULL after first call to
+ *         initCoinHeadless()).
+ */
+inline SoOffscreenRenderer* getSharedRenderer() {
+    static SoOffscreenRenderer *s_renderer = nullptr;
+    if (!s_renderer) {
+        SbViewportRegion vp(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        s_renderer = new SoOffscreenRenderer(vp);
+    }
+    return s_renderer;
+}
+
+/**
+ * Render a scene to an image file.
+ *
+ * NOTE: the @p width and @p height parameters are retained for API
+ * compatibility but are *not* honoured at runtime – rendering always occurs
+ * at DEFAULT_WIDTH x DEFAULT_HEIGHT via the shared renderer.  All current
+ * headless examples use the default 800x600 dimensions.
+ *
  * @param root Scene graph root
- * @param filename Output filename (extension determines format: .png, .jpg, .rgb)
- * @param width Image width
- * @param height Image height
+ * @param filename Output filename (SGI RGB format)
+ * @param width  Ignored; kept for API compatibility (default: DEFAULT_WIDTH)
+ * @param height Ignored; kept for API compatibility (default: DEFAULT_HEIGHT)
  * @param backgroundColor Background color (default: black)
  * @return true if successful
  */
@@ -91,20 +122,20 @@ inline bool renderToFile(
         return false;
     }
 
-    // Create viewport and renderer
-    SbViewportRegion viewport(width, height);
-    SoOffscreenRenderer renderer(viewport);
-    renderer.setComponents(SoOffscreenRenderer::RGB);
-    renderer.setBackgroundColor(backgroundColor);
+    // Use the single shared persistent renderer.  See getSharedRenderer() for
+    // why a fresh renderer is not created per call.
+    SoOffscreenRenderer *renderer = getSharedRenderer();
+    renderer->setComponents(SoOffscreenRenderer::RGB);
+    renderer->setBackgroundColor(backgroundColor);
 
     // Render the scene
-    if (!renderer.render(root)) {
+    if (!renderer->render(root)) {
         fprintf(stderr, "Error: Failed to render scene\n");
         return false;
     }
 
     // Write to file - use writeToRGB for SGI RGB format (doesn't need simage)
-    if (!renderer.writeToRGB(filename)) {
+    if (!renderer->writeToRGB(filename)) {
         fprintf(stderr, "Error: Failed to write to RGB file %s\n", filename);
         return false;
     }

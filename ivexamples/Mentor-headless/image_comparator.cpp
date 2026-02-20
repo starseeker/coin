@@ -321,10 +321,15 @@ static unsigned long long compute_perceptual_hash(const std::vector<unsigned cha
     }
     unsigned char avg = sum / (HASH_SIZE * HASH_SIZE);
     
-    // Create hash
+    // Create hash: use strict > so that a uniform/black image (avg==0) produces
+    // hash 0 instead of all-1s.  The `>=` form would set all bits for an
+    // all-zero sample set (since 0 >= 0 is true), producing a spuriously large
+    // Hamming distance when compared against a nearly-identical image whose
+    // sampled pixels happen to hit one or two bright spots (raising the average
+    // above zero and suppressing those bits).
     unsigned long long hash = 0;
     for (int i = 0; i < HASH_SIZE * HASH_SIZE; i++) {
-        if (grayscale[i] >= avg) {
+        if (grayscale[i] > avg) {
             hash |= (1ULL << i);
         }
     }

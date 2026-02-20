@@ -199,7 +199,7 @@ SbBool myAppEventHandler(void *userData, void *eventPtr)
     return handled;
 }
 
-int main(int, char **argv)
+int main(int argc, char **argv)
 {
     printf("=== Mentor Example 10.2: RenderArea Event Callback ===\n");
     printf("This demonstrates toolkit-agnostic event translation pattern\n");
@@ -263,10 +263,14 @@ int main(int, char **argv)
     // In real toolkit, these would come from actual user input
     
     printf("\n=== Simulating user interactions ===\n\n");
-    
+
+    const char *baseFilename = (argc > 1) ? argv[1] : "10.2.setEventCB";
+    char filename[512];
+
     // State 1: Initial empty scene
     printf("--- State 1: Initial empty scene ---\n");
-    myRenderArea->render("10.2.setEventCB-initial.rgb");
+    snprintf(filename, sizeof(filename), "%s_initial.rgb", baseFilename);
+    myRenderArea->render(filename);
     
     // Simulate left button clicks to add points
     printf("\n--- Simulating LEFT button clicks to add points ---\n");
@@ -297,7 +301,8 @@ int main(int, char **argv)
     delete coinEvent;
     
     printf("--- State 2: After adding 3 points ---\n");
-    myRenderArea->render("10.2.setEventCB-points.rgb");
+    snprintf(filename, sizeof(filename), "%s_points.rgb", baseFilename);
+    myRenderArea->render(filename);
     
     // Simulate middle button press to start rotation
     printf("\n--- Simulating MIDDLE button for rotation ---\n");
@@ -315,7 +320,8 @@ int main(int, char **argv)
     }
     
     printf("--- State 3: After camera rotation ---\n");
-    myRenderArea->render("10.2.setEventCB-rotated.rgb");
+    snprintf(filename, sizeof(filename), "%s_rotated.rgb", baseFilename);
+    myRenderArea->render(filename);
     
     // Release middle button to stop rotation
     nativeEvent.type = MockButtonRelease;
@@ -332,7 +338,8 @@ int main(int, char **argv)
     delete coinEvent;
     
     printf("--- State 4: After clearing points ---\n");
-    myRenderArea->render("10.2.setEventCB-cleared.rgb");
+    snprintf(filename, sizeof(filename), "%s_cleared.rgb", baseFilename);
+    myRenderArea->render(filename);
 
     printf("\n=== Summary ===\n");
     printf("Generated 4 images showing event-driven interaction\n");
