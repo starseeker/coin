@@ -4741,10 +4741,14 @@ cc_glglue_context_max_dimensions(unsigned int * width, unsigned int * height)
       *width = cc_min(*width, pbufmax[0]);
       *height = cc_min(*height, pbufmax[1]);
 
-      while ((*width * *height) > pbufmax[2]) {
-        if (modulo % 2) { *width /= 2; }
-        else { *height /= 2; }
-        modulo++;
+      /* A pbufmax[2] value of 0 means no pixel-count limit is imposed
+         by this framebuffer configuration, so skip the area constraint. */
+      if (pbufmax[2] > 0) {
+        while ((*width * *height) > pbufmax[2]) {
+          if (modulo % 2) { *width /= 2; }
+          else { *height /= 2; }
+          modulo++;
+        }
       }
     }
   }
